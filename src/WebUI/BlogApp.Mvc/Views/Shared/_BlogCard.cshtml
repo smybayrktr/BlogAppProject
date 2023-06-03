@@ -1,0 +1,19 @@
+﻿@model BlogCardResponse
+<div class="fh5co-blog animate-box">
+    <div class="title text-center">
+        <span class="posted-on">Nov. 15th 2016</span>
+        <h3><a href="#">@Model.Title</a></h3>
+        <span class="category"></span>
+    </div>
+    <a href="#"><img class="img-responsive" src=@Model.Image alt=""></a>
+    <div class="blog-text text-center">
+        <p>@Model.Body</p>
+        <ul class="fh5co-social-icons">
+            <li>Share:</li>
+            <li><a href="#"><i class="icon-twitter-with-circle"></i></a></li>
+            <li><a href="#"><i class="icon-facebook-with-circle"></i></a></li>
+            <li><a href="#"><i class="icon-linkedin-with-circle"></i></a></li>
+            <li><a href="#"><i class="icon-dribbble-with-circle"></i></a></li>
+        </ul>
+    </div>
+</div>
