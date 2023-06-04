@@ -11,6 +11,10 @@ namespace BlogApp.Services.Extensions
         public static IEnumerable<BlogCardResponse> ConvertToDto(this IEnumerable<Blog> blogs, IMapper mapper) =>
             mapper.Map<IEnumerable<BlogCardResponse>>(blogs);
 
+        public static BlogCardResponse ConvertToDto(this Blog blog, IMapper mapper) =>
+             mapper.Map<BlogCardResponse>(blog);
+
+
         public static IEnumerable<CategoryDisplayResponse> ConvertToDto(this IEnumerable<Category> categories, IMapper mapper) =>
              mapper.Map<IEnumerable<CategoryDisplayResponse>>(categories);
         

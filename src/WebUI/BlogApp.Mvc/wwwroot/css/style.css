@@ -1391,4 +1391,27 @@ h1, h2, h3, h4, h5, h6, figure {
   opacity: 0;
 }
 
+.like, .dislike {
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    background-color: white;
+    padding: 8px 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.vertical-line {
+    width: 2px;
+    height: 12px;
+    background: #41ADD1;
+    display: inline-block;
+}
+
+.like-score, .dislike-score {
+    color: #828282;
+}
 /*# sourceMappingURL=style.css.map */

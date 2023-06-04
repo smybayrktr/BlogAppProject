@@ -22,11 +22,15 @@
     <None Remove="ViewComponents\" />
     <None Remove="Views\Shared\Components\" />
     <None Remove="Views\Shared\Components\Menu\" />
+    <None Remove="Extensions\" />
+    <None Remove="Views\Blogs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TagBuilders\" />
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\Shared\Components\" />
     <Folder Include="Views\Shared\Components\Menu\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Views\Blogs\" />
   </ItemGroup>
 </Project>

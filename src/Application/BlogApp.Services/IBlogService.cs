@@ -7,6 +7,7 @@ namespace BlogApp.Services
 	{
         IEnumerable<BlogCardResponse> GetBlogsCardResponses();
         IEnumerable<BlogCardResponse> GetBlogsByCategory(int categoryId);
+        BlogCardResponse GetBlog(int id);
     }
 }
 

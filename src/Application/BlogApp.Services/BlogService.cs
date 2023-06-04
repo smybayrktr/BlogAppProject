@@ -18,6 +18,13 @@ namespace BlogApp.Services
             _mapper = mapper;
         }
 
+        public BlogCardResponse GetBlog(int id)
+        {
+            var blog=_blogRepository.Get(id);
+            var response = blog.ConvertToDto(_mapper);
+            return response;
+        }
+
         public IEnumerable<BlogCardResponse> GetBlogsByCategory(int categoryId)
         {
             var blogs = _blogRepository.GetBlogsByCategory(categoryId);

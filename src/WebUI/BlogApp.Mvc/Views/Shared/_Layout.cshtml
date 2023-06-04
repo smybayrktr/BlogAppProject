@@ -46,7 +46,7 @@
 
 </head>
 <body>
-   
+
     <div class="fh5co-loader"></div>
 
     <div id="page">
@@ -59,6 +59,7 @@
                                 <div class="col-sm-7 text-left menu-1">
                                     <ul>
                                         <li class="active"><a asp-controller="Home" asp-action="Index" asp-route-id="@null">Home</a></li>
+                                        <li class="active"><a asp-controller="Blogs" asp-action="Index">Begendiklerim</a></li>
                                         <li><a href="blog.html">Lifestyle</a></li>
                                         <li class="has-dropdown">
                                             <a href="blog.html">Blog</a>
@@ -158,6 +159,7 @@
         <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
     </div>
 
+
     <!-- jQuery -->
     <script src="~/js/jquery.min.js"></script>
     <!-- jQuery Easing -->
@@ -173,6 +175,11 @@
     <script src="~/js/magnific-popup-options.js"></script>
     <!-- Main -->
     <script src="~/js/main.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

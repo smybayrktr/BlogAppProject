@@ -19,7 +19,8 @@
                                     <div class="col-md-10 col-md-offset-1 slider-text">
                                         <div class="slider-text-inner">
                                             <h1>Not Every Project Needs To Be Perfect</h1>
-                                            <h2>Free html5 templates Made by
+                                            <h2>
+                                                Free html5 templates Made by
                                                 <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a>
                                             </h2>
                                             <p class="ct"><a href="#">Learn More <i class="icon-arrow-right"></i></a></p>
@@ -49,7 +50,8 @@
                                     <div class="col-md-10 col-md-offset-1 slider-text">
                                         <div class="slider-text-inner">
                                             <h1>What Would You Like To Learn?</h1>
-                                            <h2>Free html5 templates Made by
+                                            <h2>
+                                                Free html5 templates Made by
                                                 <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a>
                                             </h2>
                                             <p class="ct"><a href="#">Learn More <i class="icon-arrow-right"></i></a></p>
@@ -143,6 +145,7 @@
                                     <li><a href="#"><i class="icon-linkedin-with-circle"></i></a></li>
                                     <li><a href="#"><i class="icon-dribbble-with-circle"></i></a></li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>
@@ -151,17 +154,72 @@
                         {
                             @if (columnCount != 0 && columnCount % 2 == 0)
                             {
-                                @:</div><div class="row">
-                             }
-                                <div class="col-md-6">
-                                  <partial name="_BlogCard" model="blog" />
-                                </div>
-                                columnCount++;
+                            @:</div><div class="row">
+                            }
+                                        <div class="col-md-6">
+                                            <partial name="_BlogCard" model="blog" />
+                                          
+                                        </div>
+                            columnCount++;
+
                         }
+
                     </div>
+                </div>
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+                    <div class="toast-header">
+                        <strong class="me-auto">Bildirim</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div page-model="Model.PagingInfo" page-action="Index" style="display: flex; justify-content: center;"></div>
+
+@section Scripts{
+    <script>$(document).ready(function () { 
+
+        $('.like').on('click', function () {
+                var likeButton = $(this);
+                var likeScore = parseInt(likeButton.siblings(".like-score").text());
+                likeScore++;
+                likeButton.siblings(".like-score").text(likeScore);
+                let id = $(this).data('id'); 
+                $.ajax({
+                    url: '/Blogs/AddLikeBlogs/'+ id,
+                    type: 'GET',
+                    success: function (data) {
+                        $('.toast-body').text(data.message);
+                        const toastLiveExample = document.getElementById('liveToast');
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                        toastBootstrap.show();
+                    },
+                    error: function (err) {
+                        console.log('hata', error);
+                    }
+                });
+        });
+    $('.dislike').on('click', function () {
+        var dislikeButton = $(this);
+        var dislikeScore = parseInt(dislikeButton.siblings(".dislike-score").text());
+        dislikeScore++;
+        dislikeButton.siblings(".dislike-score").text(dislikeScore);
+        
+                $('.toast-body').text('Beğenmekten vazgeçtin');
+                const toastLiveExample = document.getElementById('liveToast');
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                toastBootstrap.show();
+            
+    });
+
+   
+
+});
+
+    </script>
+
+}
+

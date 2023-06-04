@@ -16,6 +16,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, EfCategoryRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+});
 
 
 var connectionString = builder.Configuration.GetConnectionString("db");
@@ -38,7 +42,7 @@ SeedData.SeedDatabase(context);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
