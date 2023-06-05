@@ -140,9 +140,15 @@ namespace BlogApp.Infrastructure.Repositories.EntityFramework
 
         }
 
+        public TEntity? GetWithPredicate(Expression<Func<TEntity, bool>> filter)
+        {
+            return _context.Set<TEntity>().AsNoTracking().FirstOrDefault(filter);
+        }
 
-
-
+        public async Task<TEntity?> GetWithPredicateAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            return await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(filter).ConfigureAwait(false);
+        }
     }
 }
 

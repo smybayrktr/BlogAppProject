@@ -1,13 +1,18 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using BlogApp.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BlogApp.Infrastructure.Data
 {
        public static class SeedData
         {
-            public static void SeedDatabase(BlogAppContext context)
+            public static void SeedDatabase(BlogAppContext context, IServiceProvider serviceProvider)
             {
-                seedUserIfNotExists(context);
+                seedUserIfNotExists(context, serviceProvider);
                 seedCategoryIfNotExists(context);
                 seedBlogIfNoExists(context);
             }
@@ -93,19 +98,32 @@ namespace BlogApp.Infrastructure.Data
                 }
 
             }
-            private static void seedUserIfNotExists(BlogAppContext context)
+            private static void seedUserIfNotExists(BlogAppContext context, IServiceProvider serviceProvider)
             {
                 if (!context.Users.Any())
                 {
-                    var users = new List<User>()
+                    var user = new User()
                 {
-                    new(){ Email="admin@gmail.com",
-                           UserName="admin@gmail.com",
-                           SecurityStamp=Guid.NewGuid().ToString()},
+                     Email="admin@gmail.com",
+                     UserName="admin@gmail.com",
+                     SecurityStamp=Guid.NewGuid().ToString()
+
                 };
-                    context.Users.AddRange(users);
-                    context.SaveChanges();
-                }
+                var userManager = serviceProvider.GetService<UserManager<User>>();
+                var passwordHasher = serviceProvider.GetService<IPasswordHasher<User>>();
+                context.Users.Add(user);
+                var hashedPassword = passwordHasher.HashPassword(user, "Admin123456:)");
+                user.PasswordHash = hashedPassword;
+                user.SecurityStamp = Guid.NewGuid().ToString();
+                context.SaveChanges();
+
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Name, user.Email));
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+                userManager.AddClaimsAsync(user, claims).Wait();
+            }
             }
 
         

@@ -24,6 +24,9 @@
     <None Remove="Views\Shared\Components\Menu\" />
     <None Remove="Extensions\" />
     <None Remove="Views\Blogs\" />
+    <None Remove="Views\Auth\" />
+    <None Remove="Views\About\" />
+    <None Remove="Views\Concat\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TagBuilders\" />
@@ -32,5 +35,8 @@
     <Folder Include="Views\Shared\Components\Menu\" />
     <Folder Include="Extensions\" />
     <Folder Include="Views\Blogs\" />
+    <Folder Include="Views\Auth\" />
+    <Folder Include="Views\About\" />
+    <Folder Include="Views\Concat\" />
   </ItemGroup>
 </Project>

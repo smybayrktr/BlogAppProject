@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Paper &mdash; Free Website Template, Free HTML5 Template by freehtml5.co</title>
+    <title>Süms</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Free HTML5 Website Template by freehtml5.co" />
     <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -20,6 +20,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 
     <!-- Animate.css -->
     <link rel="stylesheet" href="~/css/animate.css">
@@ -58,20 +60,40 @@
                             <div class="row">
                                 <div class="col-sm-7 text-left menu-1">
                                     <ul>
-                                        <li class="active"><a asp-controller="Home" asp-action="Index" asp-route-id="@null">Home</a></li>
-                                        <li class="active"><a asp-controller="Blogs" asp-action="Index">Begendiklerim</a></li>
-                                        <li><a href="blog.html">Lifestyle</a></li>
+                                        <li class="active"><a asp-controller="Home" asp-action="Index" asp-route-id="@null">Anasayfa</a></li>
                                         <li class="has-dropdown">
-                                            <a href="blog.html">Blog</a>
+                                            <a asp-controller="Home" asp-action="Index">Kategoriler</a>
                                             <ul class="dropdown">
-                                                <li><a href="#">Web Design</a></li>
-                                                <li><a href="#">eCommerce</a></li>
-                                                <li><a href="#">Branding</a></li>
-                                                <li><a href="#">API</a></li>
+                                                <li> @await Component.InvokeAsync("Menu")</li>
                                             </ul>
                                         </li>
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a asp-controller="Blogs" asp-action="GetLikeBlogs">Begendiklerim</a></li>
+                                        <li><a asp-controller="Blogs" asp-action="Create">Yaz</a></li>
+                                        <li><a asp-controller="About" asp-action="Index">Hakkımızda</a></li>
+                                        <li><a asp-controller="Concat" asp-action="Index">İletişim</a></li>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">
+                                                @User.Identity.Name (Çıkış Yap)
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login"> Giriş Yap</a>
+                                            </li>
+                                        }
+
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-controller="Blogs" asp-action="Index"> Blog İşlemleri</a>
+                                            </li>
+                                        }
+
+
                                     </ul>
                                 </div>
                                 <div class="col-sm-5">
@@ -177,6 +199,10 @@
     <script src="~/js/main.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/js/jquery.toast.js"></script>*@
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
 
 
     @await RenderSectionAsync("Scripts", required: false)

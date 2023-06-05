@@ -16,6 +16,9 @@ namespace BlogApp.Infrastructure.Repositories
         IList<T> GetAllWithPredicate(Expression<Func<T, bool>> filter);
         Task<IList<T>> GetAllWithPredicateAsync(Expression<Func<T, bool>> filter);
 
+        T? GetWithPredicate(Expression<Func<T, bool>> filter);
+        Task<T?> GetWithPredicateAsync(Expression<Func<T, bool>> filter);
+
         void Create(T entity);
         Task CreateAsync(T entity);
 

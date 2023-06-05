@@ -12,4 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BlogApp.Core\BlogApp.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
 </Project>

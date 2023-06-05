@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using BlogApp.Mvc.Models;
 using BlogApp.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogApp.Mvc.Controllers;
+
 
 public class HomeController : Controller
 {

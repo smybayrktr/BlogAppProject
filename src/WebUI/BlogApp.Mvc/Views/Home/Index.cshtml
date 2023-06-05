@@ -1,83 +1,32 @@
 ﻿@model PaginationBlogViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Süms";
     var columnCount = 0;
 }
 
-
-<aside id="fh5co-hero">
-    <div class="container">
+<div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <div class="flexslider animate-box">
-                    <ul class="slides">
-                        <li style="background-image: url(images/img_bg_1.jpg);">
-                            <div class="overlay-gradient"></div>
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1 slider-text">
-                                        <div class="slider-text-inner">
-                                            <h1>Not Every Project Needs To Be Perfect</h1>
-                                            <h2>
-                                                Free html5 templates Made by
-                                                <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a>
-                                            </h2>
-                                            <p class="ct"><a href="#">Learn More <i class="icon-arrow-right"></i></a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li style="background-image: url(images/img_bg_2.jpg);">
-                            <div class="overlay-gradient"></div>
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1 slider-text">
-                                        <div class="slider-text-inner">
-                                            <h1>Minimal &amp; Clean Blog WordPress</h1>
-                                            <h2>Free html5 templates Made by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
-                                            <p class="ct"><a href="#">Learn More <i class="icon-arrow-right"></i></a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li style="background-image: url(images/img_bg_3.jpg);">
-                            <div class="overlay-gradient"></div>
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1 slider-text">
-                                        <div class="slider-text-inner">
-                                            <h1>What Would You Like To Learn?</h1>
-                                            <h2>
-                                                Free html5 templates Made by
-                                                <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a>
-                                            </h2>
-                                            <p class="ct"><a href="#">Learn More <i class="icon-arrow-right"></i></a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+            <div class="col-md-12">
+                <div style="margin-top: 40px" class="col-md-12 col-md-offset-0 text-center fh5co-heading fh5co-heading-sidebar">
+                    <h2><span>Blog Yazıları</span></h2>
                 </div>
-            </div>
-            <aside id="sidebar">
-                <div class="col-md-4">
-                    <div class="side animate-box">
-                        <div class="col-md-12 col-md-offset-0 text-center fh5co-heading fh5co-heading-sidebar">
-                            <h2><span>Category</span></h2>
+                    @foreach (var blog in Model.Blogs)
+                    {
+                        @if (columnCount != 0 && columnCount % 2 == 0)
+                        {
+                        @:</div><div class="row">
+                        }
+                        <div class="col-md-6">
+                            <partial name="_BlogCard" model="blog" />
                         </div>
-                        <ul class="category" style="text-align:center">
-                            <li> @await Component.InvokeAsync("Menu")</li>
-                        </ul>
-                    </div>
-                </div>
-            </aside>
+                        columnCount++;
+                    }
+
+            </div>
         </div>
-    </div>
-</aside>
+</div>
+
 
 <div id="fh5co-blog-popular">
     <div class="container">
@@ -95,131 +44,65 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="fh5co-blog animate-box">
-                    <a href="#"><img class="img-responsive" src="images/blog-2.jpg" alt=""></a>
-                    <div class="blog-text">
-                        <h3><a href="#">List Minimal Design</a></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="fh5co-blog animate-box">
-                    <a href="#"><img class="img-responsive" src="images/blog-1.jpg" alt=""></a>
-                    <div class="blog-text">
-                        <h3><a href="#">Modeling Spotted</a></h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="fh5co-blog animate-box">
-                    <a href="#"><img class="img-responsive" src="images/blog-2.jpg" alt=""></a>
-                    <div class="blog-text">
-                        <h3><a href="#">Around The World</a></h3>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
-<div id="fh5co-content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-padded-right">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="fh5co-blog animate-box">
-                            <div class="title title-pin text-center">
-                                <span class="posted-on">Nov. 15th 2016</span>
-                                <h3><a href="#">Modeling &amp; Stylist in USA</a></h3>
-                                <span class="category">Lifestyle</span>
-                            </div>
-                            <a href="#"><img class="img-responsive" src="images/blog-1.jpg" alt=""></a>
-                            <div class="blog-text text-center">
-                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius. Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-                                <ul class="fh5co-social-icons">
-                                    <li>Share:</li>
-                                    <li><a href="#"><i class="icon-twitter-with-circle"></i></a></li>
-                                    <li><a href="#"><i class="icon-facebook-with-circle"></i></a></li>
-                                    <li><a href="#"><i class="icon-linkedin-with-circle"></i></a></li>
-                                    <li><a href="#"><i class="icon-dribbble-with-circle"></i></a></li>
-                                </ul>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        @foreach (var blog in Model.Blogs)
-                        {
-                            @if (columnCount != 0 && columnCount % 2 == 0)
-                            {
-                            @:</div><div class="row">
-                            }
-                                        <div class="col-md-6">
-                                            <partial name="_BlogCard" model="blog" />
-                                          
-                                        </div>
-                            columnCount++;
-
-                        }
-
-                    </div>
-                </div>
-                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-                    <div class="toast-header">
-                        <strong class="me-auto">Bildirim</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div page-model="Model.PagingInfo" page-action="Index" style="display: flex; justify-content: center;"></div>
 
-@section Scripts{
-    <script>$(document).ready(function () { 
-
-        $('.like').on('click', function () {
-                var likeButton = $(this);
-                var likeScore = parseInt(likeButton.siblings(".like-score").text());
-                likeScore++;
-                likeButton.siblings(".like-score").text(likeScore);
-                let id = $(this).data('id'); 
-                $.ajax({
-                    url: '/Blogs/AddLikeBlogs/'+ id,
-                    type: 'GET',
-                    success: function (data) {
-                        $('.toast-body').text(data.message);
-                        const toastLiveExample = document.getElementById('liveToast');
-                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-                        toastBootstrap.show();
+<script>
+    function like(element) {
+        var likeButton = element;
+        var likeScore = parseInt(likeButton.parentNode.childNodes[5].innerText);
+        likeScore++;
+        likeButton.parentNode.childNodes[5].innerText = likeScore.toString();
+        var id = likeButton.getAttribute("data-id");
+        $.ajax({
+            url: '/Blogs/AddLikeBlogs/'+id,
+            type: 'GET',
+            success: function (data) {
+                Toastify({
+                    text: "This is a toast",
+                    duration: 3000,
+                    destination: "https://github.com/apvarun/toastify-js",
+                    newWindow: true,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "left", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        background: "linear-gradient(to right, #83779b, #D3D3D3)",
                     },
-                    error: function (err) {
-                        console.log('hata', error);
-                    }
-                });
+                    onClick: function () { } // Callback after click
+                }).showToast();
+            },
+            error: function (err) {
+                console.log('hata', err);
+            }
         });
-    $('.dislike').on('click', function () {
-        var dislikeButton = $(this);
-        var dislikeScore = parseInt(dislikeButton.siblings(".dislike-score").text());
+       
+
+    }
+    function dislike(element) {
+        var dislikeButton = element;
+        var dislikeScore = parseInt(dislikeButton.parentNode.childNodes[5].innerText);
         dislikeScore++;
-        dislikeButton.siblings(".dislike-score").text(dislikeScore);
-        
-                $('.toast-body').text('Beğenmekten vazgeçtin');
-                const toastLiveExample = document.getElementById('liveToast');
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-                toastBootstrap.show();
-            
-    });
+        dislikeButton.parentNode.childNodes[5].innerText = dislikeScore.toString();
+        Toastify({
+            text: "This is a toast",
+            duration: 3000,
+            destination: "https://github.com/apvarun/toastify-js",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "left", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to right, #83779b, #D3D3D3)",
+            },
+            onClick: function () { } // Callback after click
+        }).showToast();
 
-   
-
-});
-
-    </script>
-
-}
-
+    }
+</script>

@@ -1,6 +1,8 @@
 ﻿using System;
 using AutoMapper;
+using BlogApp.DataTransferObjects.Requests;
 using BlogApp.DataTransferObjects.Responses;
+using BlogApp.Entities;
 using BlogApp.Infrastructure.Repositories;
 using BlogApp.Infrastructure.Repositories.EntityFramework;
 using BlogApp.Services.Extensions;
@@ -16,6 +18,12 @@ namespace BlogApp.Services
         {
             _blogRepository = blogRepository;
             _mapper = mapper;
+        }
+
+        public async Task CreateBlogAsync(CreateNewBlogRequest newBlogRequest)
+        {
+            var blog = newBlogRequest.ConvertToDto(_mapper);
+            await _blogRepository.CreateAsync(blog);
         }
 
         public BlogCardResponse GetBlog(int id)

@@ -1,0 +1,46 @@
+﻿@model BlogApp.DataTransferObjects.Requests.CreateNewBlogRequest
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4 style="display: flex; justify-content: center;">Create New Blog</h4>
+<hr />
+<div class="row" style="display: flex; justify-content: center;">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Body" class="control-label"></label>
+                @*<input asp-for="Body" class="form-control" />*@
+                <textarea asp-for="Body" id="message" cols="90" rows="10" class="form-control"></textarea>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                    <option hidden="" value="" disabled selected>Lütfen kategori seçin</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" style="display: flex; justify-content: center;">Anasayfaya dön</a>
+</div>

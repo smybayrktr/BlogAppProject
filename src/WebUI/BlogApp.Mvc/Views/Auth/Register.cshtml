@@ -1,0 +1,44 @@
+﻿@model BlogApp.Mvc.Models.UserRegisterViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h3 style="display: flex; justify-content: center;">Üye Ol</h3>
+
+
+<hr />
+<div class="row" style="display: flex; justify-content: center;">
+    <div class="col-md-4">
+        <form asp-action="Register" asp-route-gidilecekSayfa="@ViewBag.ReturnUrl">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Üye Ol" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Auth" asp-action="Login" style="display: flex; justify-content: center;">Zaten üye misiniz? Giriş Yapın. </a>
+</div>
