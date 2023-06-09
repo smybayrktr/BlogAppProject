@@ -8,6 +8,7 @@ using BlogApp.Entities;
 using BlogApp.Mvc.Models;
 using BlogApp.Services;
 using BlogApp.Services.Repositories.Auth;
+using BlogApp.Services.Repositories.Schedule;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -58,9 +59,9 @@ namespace BlogApp.Mvc.Controllers
             UserRegisterRequest userRegisterRequest = new UserRegisterRequest()
             {
                 Email = userRegisterViewModel.Email,
-                 LastName = userRegisterViewModel.LastName,
-                  Name = userRegisterViewModel.Name,
-                   Password = userRegisterViewModel.Password
+                LastName = userRegisterViewModel.LastName,
+                Name = userRegisterViewModel.Name,
+                Password = userRegisterViewModel.Password
 
             };
             var loginResult = await _authService.Register(userRegisterRequest);
@@ -68,6 +69,7 @@ namespace BlogApp.Mvc.Controllers
             {
                 return RedirectToAction("Login", "Auth");
             }
+            ScheduleService.ScheduleSendRegisterEmail(userRegisterRequest.Email , userRegisterRequest.Name);
             return RedirectToAction("Index", "Home");
         }
 
@@ -77,7 +79,7 @@ namespace BlogApp.Mvc.Controllers
            await _authService.Logout();
            return RedirectToAction("Login", "Auth");
         }
-        [HttpGet("/access-denied-auth")]
+        [HttpGet("/access-denied")]
         public IActionResult AccessDenied()
         {
             return View();

@@ -16,6 +16,8 @@ using BlogApp.Services.Repositories.BlogAction;
 using BlogApp.Core.Utilities.UrlHelper;
 using Hangfire;
 using Hangfire.SqlServer;
+using BlogApp.Core.Utilities.EmailHelper;
+using BlogApp.Services.Repositories.Email;
 
 namespace BlogApp.Mvc.Extensions
 {
@@ -29,7 +31,7 @@ namespace BlogApp.Mvc.Extensions
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICategoryRepository, EfCategoryRepository>();
-            
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, EfUserRepository>();
 
@@ -38,6 +40,8 @@ namespace BlogApp.Mvc.Extensions
 
             services.AddScoped<IFileHelper, FileHelper>();
             services.AddScoped<IUrlHelper, UrlHelper>();
+            services.AddScoped<IEmailService, EmailService>();
+            
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddDbContext<BlogAppContext>(options =>
@@ -59,6 +63,12 @@ namespace BlogApp.Mvc.Extensions
                       .WithJobExpirationTimeout(TimeSpan.FromHours(6));
             });
             services.AddHangfireServer();
+
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 7 });
+            var emailConfig = configuration.GetSection("EmailConfiguration")
+                                           .Get<EmailConfiguration>();
+
+            services.AddSingleton(emailConfig);
             return services;
         }
     }

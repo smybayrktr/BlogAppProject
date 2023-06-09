@@ -18,6 +18,7 @@
     <None Remove="Constants\" />
     <None Remove="Utilities\StringHelper\" />
     <None Remove="Utilities\UrlHelper\" />
+    <None Remove="Utilities\EmailHelper\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\" />
@@ -31,6 +32,7 @@
     <Folder Include="Constants\" />
     <Folder Include="Utilities\StringHelper\" />
     <Folder Include="Utilities\UrlHelper\" />
+    <Folder Include="Utilities\EmailHelper\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.0.0" />
@@ -38,5 +40,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="MimeKit" Version="4.0.0" />
   </ItemGroup>
 </Project>

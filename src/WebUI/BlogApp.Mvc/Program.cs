@@ -84,7 +84,6 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 });
 
 
-GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 7 });
 
 //RecurringJobs.DatabaseBackupOperation();
 

@@ -36,6 +36,7 @@ namespace BlogApp.Services.Repositories.Auth
             }
             var user = userRegisterRequest.ConvertToDto(_mapper);
             await _userService.AddAsync(user, userRegisterRequest.Password);
+            await _signInManager.PasswordSignInAsync(user, userRegisterRequest.Password, true, false);
             return true;
         }
 
