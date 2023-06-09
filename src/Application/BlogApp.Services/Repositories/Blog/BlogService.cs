@@ -7,7 +7,7 @@ using BlogApp.Infrastructure.Repositories;
 using BlogApp.Infrastructure.Repositories.EntityFramework;
 using BlogApp.Services.Extensions;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.BlogServiceRepository
 {
 	public class BlogService: IBlogService
 	{

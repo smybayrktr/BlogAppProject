@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using BlogApp.Infrastructure.Repositories;
+using User = BlogApp.Entities.User;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.User
 {
     public class UserService : IUserService
     {
@@ -39,7 +40,7 @@ namespace BlogApp.Services
             return result;
         }
 
-        public async Task Add(User user)
+        public async Task AddAsync(User user)
         {
             user.UserName = user.Email;
             user.SecurityStamp = Guid.NewGuid().ToString();

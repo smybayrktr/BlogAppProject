@@ -8,7 +8,7 @@ using BlogApp.Infrastructure.Repositories;
 using BlogApp.Infrastructure.Repositories.EntityFramework;
 using BlogApp.Services.Extensions;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.BlogAction
 {
 	public class BlogActionService:IBlogActionService
 	{
@@ -21,7 +21,7 @@ namespace BlogApp.Services
             _mapper = mapper;
         }
 
-        public async Task<BlogActionResponse> Dislike(CreateBlogActionRequest createBlogActionRequest)
+        public async Task<BlogActionResponse> DislikeAsync(CreateBlogActionRequest createBlogActionRequest)
         {
             var checkLike = await _blogActionRepository.GetWithPredicateAsync(x => x.UserId == createBlogActionRequest.UserId
                                                                          && x.BlogId == createBlogActionRequest.BlogId);
@@ -41,7 +41,7 @@ namespace BlogApp.Services
             }
         }
 
-        public async Task<BlogActionResponse> Like(CreateBlogActionRequest createBlogActionRequest)
+        public async Task<BlogActionResponse> LikeAsync(CreateBlogActionRequest createBlogActionRequest)
         {
             var checkLike = await _blogActionRepository.GetWithPredicateAsync(x=>x.UserId ==createBlogActionRequest.UserId
                                                                          && x.BlogId==createBlogActionRequest.BlogId);

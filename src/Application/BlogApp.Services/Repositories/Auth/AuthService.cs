@@ -1,9 +1,10 @@
 ﻿using System;
 using BlogApp.Entities;
+using BlogApp.Services.Repositories.UserServiceRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.AuthServiceRepository
 {
     public class AuthService : IAuthService
     {

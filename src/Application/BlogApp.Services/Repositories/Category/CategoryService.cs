@@ -4,7 +4,7 @@ using BlogApp.DataTransferObjects.Responses;
 using BlogApp.Infrastructure.Repositories;
 using BlogApp.Services.Extensions;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.CategoryServiceRepository
 {
 	public class CategoryService:ICategoryService
 	{

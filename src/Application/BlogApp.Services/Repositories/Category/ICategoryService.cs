@@ -1,7 +1,7 @@
 ﻿using System;
 using BlogApp.DataTransferObjects.Responses;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.CategoryServiceRepository
 {
 	public interface ICategoryService
 	{

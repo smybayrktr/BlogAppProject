@@ -1,7 +1,7 @@
 ﻿using System;
 using BlogApp.Entities;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.AuthServiceRepository
 {
 	public interface IAuthService
 	{

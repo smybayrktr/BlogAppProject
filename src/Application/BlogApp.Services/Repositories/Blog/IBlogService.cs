@@ -2,7 +2,7 @@
 using BlogApp.DataTransferObjects.Requests;
 using BlogApp.DataTransferObjects.Responses;
 
-namespace BlogApp.Services
+namespace BlogApp.Services.Repositories.BlogServiceRepository
 {
 	public interface IBlogService
 	{
