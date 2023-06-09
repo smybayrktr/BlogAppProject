@@ -5,7 +5,7 @@ namespace BlogApp.Mvc.Models
 {
 	public class PaginationBlogViewModel
 	{
-        public IEnumerable<BlogCardResponse> Blogs { get; set; }
+        public IEnumerable<BlogCardResponse?> Blogs { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
 }

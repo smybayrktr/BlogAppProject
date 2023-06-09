@@ -1,16 +1,17 @@
 ﻿using System;
 using BlogApp.Entities;
 
-namespace BlogApp.Services.Repositories.User
+namespace BlogApp.Services.Repositories.AppUser
 {
 	public interface IUserService
 	{
-        Task<IList<User>> GetAll();
-        Task<User> GetById(int id);
-        Task AddAsync(User user);
-        Task Update(User user);
-        Task Delete(User user);
-        Task<User> GetByMail(string email);
+        Task<IList<User?>> GetAllAsync();
+        Task<User?> GetByIdAsync(int id);
+        Task AddAsync(User user, string password);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(User user);
+        Task<User?> GetByEmailAsync(string email);
+        Task<User?> GetCurrentUser();
     }
 }
 

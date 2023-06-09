@@ -9,10 +9,17 @@
   <ItemGroup>
     <None Remove="Extensions\" />
     <None Remove="Mappings\" />
+    <None Remove="Repositories\" />
+    <None Remove="Repositories\UserServiceRepository\" />
+    <None Remove="Repositories\AuthServiceRepository\" />
+    <None Remove="Repositories\BlogServiceRepository\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Mappings\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\Auth\" />
+    <Folder Include="Repositories\Blog\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />

@@ -54,8 +54,7 @@ namespace BlogApp.Infrastructure.Repositories.EntityFramework
              * deletedEntity.State = EntityState.Deleted;
              * await context.SaveChangesAsync();
              */
-            var deletedEntity = await _context.Set<TEntity>().FindAsync(entity);
-            _context.Set<TEntity>().Remove(deletedEntity);
+            _context.Set<TEntity>().Remove(entity);
             await _context.SaveChangesAsync();
 
         }
@@ -67,9 +66,8 @@ namespace BlogApp.Infrastructure.Repositories.EntityFramework
             * deletedEntity.State = EntityState.Deleted;
             * context.SaveChanges();
             */
-            var deletedEntity = _context.Set<TEntity>().Find(entity);
-            _context.Set<TEntity>().Remove(deletedEntity);
-            _context.SaveChangesAsync();
+            _context.Set<TEntity>().Remove(entity);
+            _context.SaveChanges();
 
         }
 
@@ -142,12 +140,12 @@ namespace BlogApp.Infrastructure.Repositories.EntityFramework
 
         public TEntity? GetWithPredicate(Expression<Func<TEntity, bool>> filter)
         {
-            return _context.Set<TEntity>().AsNoTracking().FirstOrDefault(filter);
+            return _context.Set<TEntity>().FirstOrDefault(filter);
         }
 
         public async Task<TEntity?> GetWithPredicateAsync(Expression<Func<TEntity, bool>> filter)
         {
-            return await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(filter).ConfigureAwait(false);
+            return await _context.Set<TEntity>().FirstOrDefaultAsync(filter);
         }
     }
 }

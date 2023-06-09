@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace BlogApp.Mvc.Models
 {
 	public class UserRegisterViewModel

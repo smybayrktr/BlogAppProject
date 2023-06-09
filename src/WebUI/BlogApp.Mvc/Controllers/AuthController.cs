@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BlogApp.DataTransferObjects.Requests;
 using BlogApp.Entities;
 using BlogApp.Mvc.Models;
 using BlogApp.Services;
+using BlogApp.Services.Repositories.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -21,90 +23,61 @@ namespace BlogApp.Mvc.Controllers
         {
             _authService = authService;
         }
+        [HttpGet("/login")]
         public IActionResult Login(string? returnUrl)
         {
             ViewBag.ReturnUrl=returnUrl;
             return View();
         }
-        [HttpPost]
+
+        [HttpPost("/login")]
         public async Task<IActionResult> Login(UserLoginViewModel model, string? returnUrl)
         {
-            if (!ModelState.IsValid)
+            UserLoginRequest userLoginRequest = new UserLoginRequest()
             {
-                return View(model);
-            }
-            var user = new User
-            {
-                Email = model.Email.ToLower(),
+                Email = model.Email,
                 Password = model.Password
             };
-            var loginResult = await _authService.Login(user);
-            if (!loginResult)
-            {
-                ModelState.AddModelError("Login", "Sisteme giriş yapılamadı.");
-                return View(model);
-            }
-            Claim[] claims = new Claim[]
-                    {
-                        new Claim(ClaimTypes.Name,user.Name),
-                        new Claim(ClaimTypes.Email,user.Email),
-                        new Claim(ClaimTypes.Role,user.Role)
-                    };
-            ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(principal);
-            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
+            var response = await _authService.Login(userLoginRequest);
+            return RedirectToAction("Index","Home");
+        }
 
-            return RedirectToAction("Index", "Home");
-        } 
-
-
+        [HttpGet("/register")]
         public IActionResult Register()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/register")]
         public async Task<IActionResult> Register(UserRegisterViewModel userRegisterViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(userRegisterViewModel);
             }
-            var user = new User
+            UserRegisterRequest userRegisterRequest = new UserRegisterRequest()
             {
-                Name= userRegisterViewModel.Name,
-                LastName = userRegisterViewModel.LastName,
                 Email = userRegisterViewModel.Email,
-                Password = userRegisterViewModel.Password
-            };
-            var result = await _authService.Register(user);
-            if (!result)
-            {
-                return View(userRegisterViewModel);
-            }
+                 LastName = userRegisterViewModel.LastName,
+                  Name = userRegisterViewModel.Name,
+                   Password = userRegisterViewModel.Password
 
-            var userLogin = new User
-            {
-                Email = userRegisterViewModel.Email,
-                Password = userRegisterViewModel.Password
             };
-            var loginResult = await _authService.Login(userLogin);
+            var loginResult = await _authService.Register(userRegisterRequest);
             if (!loginResult)
             {
                 return RedirectToAction("Login", "Auth");
             }
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet("/logout")]
         public async Task<IActionResult> Logout()
         {
            await _authService.Logout();
-            return RedirectToAction("Index", "Home");
+           return RedirectToAction("Login", "Auth");
         }
-
+        [HttpGet("/access-denied-auth")]
         public IActionResult AccessDenied()
         {
             return View();

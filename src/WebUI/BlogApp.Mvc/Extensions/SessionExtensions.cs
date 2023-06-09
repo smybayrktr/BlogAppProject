@@ -10,7 +10,7 @@ namespace BlogApp.Mvc.Extensions
             var serialized = JsonSerializer.Serialize<T>(value); //Bir tipin evrensel formata dönüştürülmesi.
             session.SetString(key, serialized);
         }
-        public static T GetJson<T>(this ISession session, string key)
+        public static T? GetJson<T>(this ISession session, string key)
         {
             var serializedString = session.GetString(key);
 

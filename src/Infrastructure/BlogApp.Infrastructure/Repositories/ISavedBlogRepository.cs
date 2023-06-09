@@ -3,7 +3,7 @@ using BlogApp.Entities;
 
 namespace BlogApp.Infrastructure.Repositories
 {
-	public interface IBlogActionRepository:IEntityRepository<BlogAction>
+	public interface ISavedBlogRepository:IEntityRepository<SavedBlog>
 	{
 
 	}

@@ -6,44 +6,23 @@
 }
 
 <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div style="margin-top: 40px" class="col-md-12 col-md-offset-0 text-center fh5co-heading fh5co-heading-sidebar">
-                    <h2><span>Blog Yazıları</span></h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin-top: 40px" class="col-md-12 col-md-offset-0 text-center fh5co-heading fh5co-heading-sidebar">
+                <h2><span>Blog Yazıları</span></h2>
+            </div>
+            @foreach (var blog in Model.Blogs)
+            {
+                @if (columnCount != 0 && columnCount % 2 == 0)
+                {
+                @:</div><div class="row">
+                }
+                <div class="col-md-6">
+                    <partial name="_BlogCard" model="blog" />
                 </div>
-                    @foreach (var blog in Model.Blogs)
-                    {
-                        @if (columnCount != 0 && columnCount % 2 == 0)
-                        {
-                        @:</div><div class="row">
-                        }
-                        <div class="col-md-6">
-                            <partial name="_BlogCard" model="blog" />
-                        </div>
-                        columnCount++;
-                    }
+                columnCount++;
+            }
 
-            </div>
-        </div>
-</div>
-
-
-<div id="fh5co-blog-popular">
-    <div class="container">
-        <div class="row animate-box">
-            <div class="col-md-12 col-md-offset-0 text-center fh5co-heading">
-                <h2><span>Popular Post</span></h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="fh5co-blog animate-box">
-                    <a href="#"><img class="img-responsive" src="images/blog-1.jpg" alt=""></a>
-                    <div class="blog-text">
-                        <h3><a href="#">Conquer The World</a></h3>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -51,58 +30,4 @@
 
 <div page-model="Model.PagingInfo" page-action="Index" style="display: flex; justify-content: center;"></div>
 
-<script>
-    function like(element) {
-        var likeButton = element;
-        var likeScore = parseInt(likeButton.parentNode.childNodes[5].innerText);
-        likeScore++;
-        likeButton.parentNode.childNodes[5].innerText = likeScore.toString();
-        var id = likeButton.getAttribute("data-id");
-        $.ajax({
-            url: '/Blogs/AddLikeBlogs/'+id,
-            type: 'GET',
-            success: function (data) {
-                Toastify({
-                    text: "This is a toast",
-                    duration: 3000,
-                    destination: "https://github.com/apvarun/toastify-js",
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "left", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "linear-gradient(to right, #83779b, #D3D3D3)",
-                    },
-                    onClick: function () { } // Callback after click
-                }).showToast();
-            },
-            error: function (err) {
-                console.log('hata', err);
-            }
-        });
-       
 
-    }
-    function dislike(element) {
-        var dislikeButton = element;
-        var dislikeScore = parseInt(dislikeButton.parentNode.childNodes[5].innerText);
-        dislikeScore++;
-        dislikeButton.parentNode.childNodes[5].innerText = dislikeScore.toString();
-        Toastify({
-            text: "This is a toast",
-            duration: 3000,
-            destination: "https://github.com/apvarun/toastify-js",
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "left", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(to right, #83779b, #D3D3D3)",
-            },
-            onClick: function () { } // Callback after click
-        }).showToast();
-
-    }
-</script>

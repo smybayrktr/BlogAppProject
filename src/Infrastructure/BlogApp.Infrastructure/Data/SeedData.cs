@@ -8,125 +8,137 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BlogApp.Infrastructure.Data
 {
-       public static class SeedData
+    public static class SeedData
+    {
+        public static async Task SeedDatabase(BlogAppContext context, IServiceProvider serviceProvider)
         {
-            public static void SeedDatabase(BlogAppContext context, IServiceProvider serviceProvider)
-            {
-                seedUserIfNotExists(context, serviceProvider);
-                seedCategoryIfNotExists(context);
-                seedBlogIfNoExists(context);
-            }
+            await seedUserIfNotExists(context, serviceProvider);
+            seedCategoryIfNotExists(context);
+            seedBlogIfNoExists(context);
+            await seedAdminClaimIfNotExists(context, serviceProvider);
+        }
 
-            private static void seedCategoryIfNotExists(BlogAppContext context)
+        private static void seedCategoryIfNotExists(BlogAppContext context)
+        {
+            if (!context.Categories.Any())
             {
-                if (!context.Categories.Any())
-                {
-                    var categories = new List<Category>()
+                var categories = new List<Category>()
                 {
                     new(){Name=".Net" },
                     new(){Name="Java" },
 
                 };
-                    context.Categories.AddRange(categories);
-                    context.SaveChanges();
-                }
+                context.Categories.AddRange(categories);
+                context.SaveChanges();
             }
-            private static void seedBlogIfNoExists(BlogAppContext context)
+        }
+        private static void seedBlogIfNoExists(BlogAppContext context)
+        {
+            if (!context.Blogs.Any())
             {
-                if (!context.Blogs.Any())
-                {
-                    var blogs = new List<Blog>() {
+                var blogs = new List<Blog>() {
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı1?",
                                                            Body="..",
-                                                           Image="https://loremflickr.com/320/240",
+                                                           Image="images/uploaded-images/blog-1.jpg",
                                                            CategoryId=1,
                                                            Url=".net",
                                                            UserId=1 },
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı2?",
                                                          Body="..",
-                                                         Image="https://loremflickr.com/320/240",
+                                                         Image="images/uploaded-images/blog-1.jpg",
                                                          CategoryId=1,
                                                          Url=".",
                                                          UserId=1 },
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı3?",
                                                         Body="..",
-                                                        Image="https://loremflickr.com/320/240",
+                                                        Image="images/uploaded-images/blog-1.jpg",
                                                         CategoryId=2,
                                                         Url=".net",
                                                         UserId=1},
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı4?",
                                                         Body="..",
-                                                        Image="https://loremflickr.com/320/240",
+                                                        Image="images/uploaded-images/blog-1.jpg",
                                                         CategoryId=1,
                                                         Url=".net",
                                                         UserId=1},
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı5?",
                                                         Body="..",
-                                                        Image="https://loremflickr.com/320/240",
+                                                        Image="images/uploaded-images/blog-1.jpg",
                                                         CategoryId=2,
                                                         Url=".net",
                                                         UserId=1},
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı6?",
                                                         Body="..",
-                                                        Image="https://loremflickr.com/320/240",
+                                                        Image="images/uploaded-images/blog-1.jpg",
                                                         CategoryId=1,
                                                         Url=".net",
                                                         UserId=1},
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı7?",
                                                         Body="..",
-                                                        Image="https://loremflickr.com/320/240",
+                                                        Image="images/uploaded-images/blog-1.jpg",
                                                         CategoryId=2,
                                                         Url=".net",
                                                         UserId=1},
 
                         new() { Title=".Net ile Katmanlı Mimari Nasıl Olmalı8?",
                                                         Body="..",
-                                                        Image="https://loremflickr.com/320/240",
+                                                        Image="images/uploaded-images/blog-1.jpg",
                                                         CategoryId=1,
                                                         Url=".net",
                                                         UserId=1},
                 };
 
-                    context.Blogs.AddRange(blogs);
-                    context.SaveChanges();
-                }
-
+                context.Blogs.AddRange(blogs);
+                context.SaveChanges();
             }
-            private static void seedUserIfNotExists(BlogAppContext context, IServiceProvider serviceProvider)
+
+        }
+        private static async Task seedUserIfNotExists(BlogAppContext context, IServiceProvider serviceProvider)
+        {
+            if (!context.Users.Any())
             {
-                if (!context.Users.Any())
+                var user = new User()
                 {
-                    var user = new User()
-                {
-                     Email="admin@gmail.com",
-                     UserName="admin@gmail.com",
-                     SecurityStamp=Guid.NewGuid().ToString()
+                    Email = "admin@gmail.com",
+                    UserName = "admin@gmail.com",
+                    SecurityStamp = Guid.NewGuid().ToString()
 
                 };
                 var userManager = serviceProvider.GetService<UserManager<User>>();
                 var passwordHasher = serviceProvider.GetService<IPasswordHasher<User>>();
-                context.Users.Add(user);
                 var hashedPassword = passwordHasher.HashPassword(user, "Admin123456:)");
                 user.PasswordHash = hashedPassword;
                 user.SecurityStamp = Guid.NewGuid().ToString();
+                context.Users.Add(user);
                 context.SaveChanges();
 
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, user.Email));
-                claims.Add(new Claim(ClaimTypes.Role, "User"));
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-                claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-                userManager.AddClaimsAsync(user, claims).Wait();
-            }
+               
             }
 
-        
+
+        }
+        private static async Task seedAdminClaimIfNotExists(BlogAppContext context, IServiceProvider serviceProvider)
+        {
+            var user = context.Users.First();
+            var userManager = serviceProvider.GetService<UserManager<User>>();
+            var checkClaims = await userManager.GetClaimsAsync(user);
+            if (checkClaims.Any())
+            {
+                return;
+            }
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, user.Email));
+            claims.Add(new Claim(ClaimTypes.Role, "User"));
+            claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            await userManager.AddClaimsAsync(user, claims).ConfigureAwait(false);
+        }
     }
 }
 

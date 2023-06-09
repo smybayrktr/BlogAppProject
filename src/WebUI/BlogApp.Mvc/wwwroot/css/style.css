@@ -1414,4 +1414,19 @@ h1, h2, h3, h4, h5, h6, figure {
 .like-score, .dislike-score {
     color: #828282;
 }
-/*# sourceMappingURL=style.css.map */
+
+.bookmark-save{
+    position:absolute;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width:48px;
+    height:48px;
+    right:10px;
+    bottom:10px;
+}
+
+.mb-60{
+    margin-bottom:60px;
+
+}

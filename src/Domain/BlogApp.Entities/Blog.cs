@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
-using BlogApp.Core.Utilities;
+using BlogApp.Core.Utilities.DateHelper;
 
 namespace BlogApp.Entities
 {

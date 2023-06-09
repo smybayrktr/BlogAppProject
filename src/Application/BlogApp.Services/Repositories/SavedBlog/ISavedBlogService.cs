@@ -1,15 +1,15 @@
 ﻿using System;
 using BlogApp.DataTransferObjects.Requests;
 using BlogApp.DataTransferObjects.Responses;
+using BlogApp.Entities;
 
 namespace BlogApp.Services.Repositories.BlogAction { 
 
-	public interface IBlogActionService
-	{
-		Task<BlogActionResponse> LikeAsync(CreateBlogActionRequest createBlogActionRequest);
-
-        Task<BlogActionResponse> DislikeAsync(CreateBlogActionRequest createBlogActionRequest);
-
+	public interface ISavedBlogService
+    {
+        Task<SaveBlogResponse> UserSaveAction(CreateSaveBlogRequest createSaveBlogRequest);
+        Task<SavedBlog?> GetSavedBlogByBlogIdAsync(int blogId);
+        Task<IEnumerable<SavedBlog?>> GetSavedBlogsByUserAsync();
     }
 }
 

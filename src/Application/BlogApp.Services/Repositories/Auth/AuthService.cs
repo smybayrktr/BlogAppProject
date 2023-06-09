@@ -1,59 +1,57 @@
 ﻿using System;
+using System.Reflection.Metadata;
+using AutoMapper;
+using BlogApp.DataTransferObjects.Requests;
 using BlogApp.Entities;
-using BlogApp.Services.Repositories.UserServiceRepository;
+using BlogApp.Services.Extensions;
+using BlogApp.Services.Repositories.AppUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace BlogApp.Services.Repositories.AuthServiceRepository
+namespace BlogApp.Services.Repositories.Auth
 {
     public class AuthService : IAuthService
     {
-        private IPasswordHasher<User> _passwordHasher;
-        private UserManager<User> _userManager;
-        private SignInManager<User> _signInManager;
-        private IUserService _userService;
-        private IHttpContextAccessor _httpContextAccessor;
+        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
 
-        public AuthService(IPasswordHasher<User> passwordHasher, UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService, IHttpContextAccessor httpContextAccessor)
+        public AuthService(IPasswordHasher<User> passwordHasher, SignInManager<User> signInManager,
+            IUserService userService, IMapper mapper)
         {
             _passwordHasher = passwordHasher;
-            _userManager = userManager;
             _signInManager = signInManager;
             _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
-        public async Task<bool> Register(User user)
+
+        public async Task<bool> Register(UserRegisterRequest userRegisterRequest)
         {
-            var userToFindByEmail = await CheckUserExistsByEmail(user.Email);
-            if (userToFindByEmail != null)
+            var checkUserByEmail = await checkUserExistsByEmail(userRegisterRequest.Email);
+            if (checkUserByEmail)
             {
                 return false;
             }
-           
-            var userRegister = new User
-            {
-                Email = user.Email,
-            };
-            var hashedPassword = _passwordHasher.HashPassword(userRegister, user.Password);
-            user.PasswordHash = hashedPassword;
-            await _userService.Add(user);
+            var user = userRegisterRequest.ConvertToDto(_mapper);
+            await _userService.AddAsync(user, userRegisterRequest.Password);
             return true;
         }
 
-        public async Task<bool> Login(User user)
+        public async Task<bool> Login(UserLoginRequest userLoginRequest)
         {
-            var userToFind = await _userManager.FindByEmailAsync(user.Email);
+            var userToFind = await _userService.GetByEmailAsync(userLoginRequest.Email);
             if (userToFind == null)
             {
                 return false;
             }
-            var verifyPassword = _passwordHasher.VerifyHashedPassword(userToFind, userToFind.PasswordHash, user.Password);
-            if (verifyPassword == PasswordVerificationResult.Failed)
+            var checkPassword = verifyUserPassword(userToFind, userToFind.PasswordHash, userLoginRequest.Password);
+            if (!checkPassword)
             {
                 return false;
             }
-            await _signInManager.PasswordSignInAsync(userToFind, user.Password, true, false);
+            await _signInManager.PasswordSignInAsync(userToFind, userLoginRequest.Password, true, false);
             return true;
         }
 
@@ -61,15 +59,17 @@ namespace BlogApp.Services.Repositories.AuthServiceRepository
         {
             await _signInManager.SignOutAsync();
         }
-        public async Task<User> CheckUserExistsByEmail(string email)
-        {
-            var userToFind = await _userService.GetByMail(email);
-            if (userToFind == null)
-            {
-                return null;
-            }
 
-            return userToFind;
+        private async Task<bool> checkUserExistsByEmail(string email)
+        {
+            var checkUserByEmail = await _userService.GetByEmailAsync(email);
+            return checkUserByEmail == null ? false : true;
+        }
+
+        private bool verifyUserPassword(User user, string hashedPassword, string providedPassword )
+        {
+            var verifyPassword = _passwordHasher.VerifyHashedPassword(user, hashedPassword, providedPassword);
+            return verifyPassword == PasswordVerificationResult.Failed ? false : true;
         }
     }
 }

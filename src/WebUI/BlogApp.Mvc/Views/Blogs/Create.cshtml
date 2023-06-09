@@ -4,12 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
-
 <h4 style="display: flex; justify-content: center;">Create New Blog</h4>
 <hr />
 <div class="row" style="display: flex; justify-content: center;">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-controller="Blogs" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -18,13 +17,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
-                @*<input asp-for="Body" class="form-control" />*@
-                <textarea asp-for="Body" id="message" cols="90" rows="10" class="form-control"></textarea>
+                <textarea asp-for="Body" id="textarea" cols="90" rows="10" class="form-control"></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <label for="image" asp-for="Image" class="control-label"></label>
+                <input type="file" asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,3 +42,36 @@
 <div>
     <a asp-controller="Home" asp-action="Index" style="display: flex; justify-content: center;">Anasayfaya dön</a>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="~/js/summernote.js"></script>
+<script>$(document).ready(function () {
+        $('#textarea').summernote({
+            height: ($(window).height() - 300),
+            callbacks: {
+                onImageUpload: function (image) {
+                    uploadImage(image[0]);
+                }
+            }
+        });
+
+        function uploadImage(image) {
+            var data = new FormData();
+            data.append("file", image);
+            $.ajax({
+                url: '/upload-blog-image',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                type: "post",
+                success: function (url) {
+                    var image = $('<img>').attr('src', url);
+                    $('#textarea').summernote("insertNode", image[0]);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+    });</script>

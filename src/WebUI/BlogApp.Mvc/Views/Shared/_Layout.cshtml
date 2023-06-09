@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Süms</title>
+    <title>Süms 🧚🏻‍♀️</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Free HTML5 Website Template by freehtml5.co" />
     <meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -22,29 +22,16 @@
     <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧙🏻‍♀️</text></svg>">
 
-    <!-- Animate.css -->
     <link rel="stylesheet" href="~/css/animate.css">
-    <!-- Icomoon Icon Fonts-->
     <link rel="stylesheet" href="~/css/icomoon.css">
-    <!-- Bootstrap  -->
     <link rel="stylesheet" href="~/css/bootstrap.css">
-
-    <!-- Magnific Popup -->
     <link rel="stylesheet" href="~/css/magnific-popup.css">
-
-    <!-- Flexslider  -->
     <link rel="stylesheet" href="~/css/flexslider.css">
-
-    <!-- Theme style  -->
     <link rel="stylesheet" href="~/css/style.css">
-
-    <!-- Modernizr JS -->
     <script src="~/js/modernizr-2.6.2.min.js"></script>
-    <!-- FOR IE9 below -->
-    <!--[if lt IE 9]>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.css" integrity="sha512-ngQ4IGzHQ3s/Hh8kMyG4FC74wzitukRMIcTOoKT3EyzFZCILOPF0twiXOQn75eDINUfKBYmzYn2AA8DkAk8veQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 <body>
@@ -58,52 +45,59 @@
                     <div class="top-menu">
                         <div class="container">
                             <div class="row">
-                                <div class="col-sm-7 text-left menu-1">
+                                <div class="col-sm-12 text-left menu-1">
                                     <ul>
-                                        <li class="active"><a asp-controller="Home" asp-action="Index" asp-route-id="@null">Anasayfa</a></li>
+                                        <li class="active">
+                                            <a asp-controller="Home" asp-action="Index" asp-route-id="@null"> 🏠 Anasayfa</a>
+                                        </li>
                                         <li class="has-dropdown">
-                                            <a asp-controller="Home" asp-action="Index">Kategoriler</a>
+                                            <a asp-controller="Home" asp-action="Index">🐾 Kategoriler</a>
                                             <ul class="dropdown">
                                                 <li> @await Component.InvokeAsync("Menu")</li>
                                             </ul>
                                         </li>
-                                        <li><a asp-controller="Blogs" asp-action="GetLikeBlogs">Begendiklerim</a></li>
-                                        <li><a asp-controller="Blogs" asp-action="Create">Yaz</a></li>
-                                        <li><a asp-controller="About" asp-action="Index">Hakkımızda</a></li>
-                                        <li><a asp-controller="Concat" asp-action="Index">İletişim</a></li>
+
+                                        <li><a asp-controller="Blogs" asp-action="Create"> ✍🏻 Yaz</a></li>
+                                        <li><a asp-controller="About" asp-action="Index"> ✨ Hakkımızda</a></li>
+                                        <li><a asp-controller="Contact" asp-action="Index"> 📞 İletişim</a></li>
                                         @if (User.Identity.IsAuthenticated)
                                         {
+                                            @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                                            {
+                                                <li class="has-dropdown">
+                                                    <a asp-controller="Home" asp-action="Index">🦦 Profil </a>
+                                                    <ul class="dropdown">
+                                                        <li>
+                                                            <a asp-controller="Blogs" asp-action="GetSavedBlogs">
+                                                                💕 Kaydedilenler
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a asp-controller="Blogs" asp-action="GetBlogsByUser">
+                                                                🐣 Yazılarım
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                            }
                                             <li class="nav-item">
                                                 <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">
-                                                @User.Identity.Name (Çıkış Yap)
+                                                    @User.Identity.Name (Çıkış Yap)
                                                 </a>
                                             </li>
+
                                         }
                                         else
                                         {
                                             <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login"> Giriş Yap</a>
+                                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login"> 🔮 Giriş                  Yap</a>
                                             </li>
                                         }
 
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-controller="Blogs" asp-action="Index"> Blog İşlemleri</a>
-                                            </li>
-                                        }
-
-
                                     </ul>
                                 </div>
-                                <div class="col-sm-5">
-                                    <ul class="fh5co-social-icons">
-                                        <li><a href="#"><i class="icon-twitter-with-circle"></i></a></li>
-                                        <li><a href="#"><i class="icon-facebook-with-circle"></i></a></li>
-                                        <li><a href="#"><i class="icon-linkedin-with-circle"></i></a></li>
-                                        <li><a href="#"><i class="icon-dribbble-with-circle"></i></a></li>
-                                    </ul>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -113,10 +107,10 @@
                 <div class="col-xs-12 text-center menu-2">
                     <div id="fh5co-logo">
                         <h1>
-                            <a href="index.html">
+                            <a asp-controller="Home" asp-action="Index">
                                 Süms<span>.</span>
                                 <br />
-                                <small>Blog Theme</small>
+                                <small>Blog Page</small>
                             </a>
                         </h1>
                     </div>
@@ -129,28 +123,20 @@
         <footer id="fh5co-footer" role="contentinfo">
             <div class="container">
                 <div class="row row-pb-md">
-                    <div class="col-md-4 fh5co-widget">
-                        <h4>Paper</h4>
-                        <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
-                    </div>
                     <div class="col-md-4 col-md-push-1">
                         <h4>Links</h4>
                         <ul class="fh5co-footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Lifestyle</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a asp-action="Index" asp-controller="Home">Anasayfa</a></li>
+                            <li><a asp-action="Index" asp-controller="About">Hakkımızda</a></li>
+                            <li><a asp-action="Index" asp-controller="Concat">İletişim</a></li>
                         </ul>
                     </div>
 
                     <div class="col-md-4 col-md-push-1">
                         <h4>Contact Information</h4>
                         <ul class="fh5co-footer-links">
-                            <li>198 West 21th Street, <br> Suite 721 New York NY 10016</li>
-                            <li><a href="tel://1234567920">+ 1235 2355 98</a></li>
-                            <li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-                            <li><a href="http://freehtml5.co">FreeHTML5.co</a></li>
+                            <li><a href="mailto:info@yoursite.com">info@sumsite.com</a></li>
+                            <li><a>SümSüm.co</a></li>
                         </ul>
                     </div>
 
@@ -159,15 +145,13 @@
                 <div class="row copyright">
                     <div class="col-md-12 text-center">
                         <p>
-                            <small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-                            <small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a></small>
+                            <small class="block">&copy; 2023. SümSüm Tüm Hakları Saklıdır.</small>
                         </p>
                         <p>
                             <ul class="fh5co-social-icons">
-                                <li><a href="#"><i class="icon-twitter"></i></a></li>
-                                <li><a href="#"><i class="icon-facebook"></i></a></li>
-                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
-                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                                <li><a href="https://twitter.com/smybayrktrs"><i class="icon-twitter"></i></a></li>
+                                <li><a href="https://www.linkedin.com/in/smybayrktr/"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="https://www.instagram.com/smybayrktr/"><i class="icon-instagram"></i></a></li>
                             </ul>
                         </p>
                     </div>
@@ -181,29 +165,19 @@
         <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
     </div>
 
-
-    <!-- jQuery -->
-    <script src="~/js/jquery.min.js"></script>
-    <!-- jQuery Easing -->
+    @*<script src="~/js/jquery.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="~/js/jquery.easing.1.3.js"></script>
-    <!-- Bootstrap -->
     <script src="~/js/bootstrap.min.js"></script>
-    <!-- Waypoints -->
     <script src="~/js/jquery.waypoints.min.js"></script>
-    <!-- Flexslider -->
     <script src="~/js/jquery.flexslider-min.js"></script>
-    <!-- Magnific Popup -->
     <script src="~/js/jquery.magnific-popup.min.js"></script>
     <script src="~/js/magnific-popup-options.js"></script>
-    <!-- Main -->
     <script src="~/js/main.js"></script>
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @*<script src="~/js/jquery.toast.js"></script>*@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-
-
+    <script src="~/js/summernote.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

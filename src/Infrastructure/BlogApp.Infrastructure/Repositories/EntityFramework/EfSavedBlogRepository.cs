@@ -4,9 +4,9 @@ using BlogApp.Infrastructure.Data;
 
 namespace BlogApp.Infrastructure.Repositories.EntityFramework
 {
-    public class EfBlogActionRepository : EfEntityRepositoryBase<BlogAction, BlogAppContext>, IBlogActionRepository
+    public class EfSavedBlogRepository : EfEntityRepositoryBase<SavedBlog, BlogAppContext>, ISavedBlogRepository
     {
-        public EfBlogActionRepository(BlogAppContext context) : base(context)
+        public EfSavedBlogRepository(BlogAppContext context) : base(context)
         {
         }
     }

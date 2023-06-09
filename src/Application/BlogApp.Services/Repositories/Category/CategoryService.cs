@@ -4,7 +4,7 @@ using BlogApp.DataTransferObjects.Responses;
 using BlogApp.Infrastructure.Repositories;
 using BlogApp.Services.Extensions;
 
-namespace BlogApp.Services.Repositories.CategoryServiceRepository
+namespace BlogApp.Services.Repositories.Category
 {
 	public class CategoryService:ICategoryService
 	{
@@ -16,9 +16,9 @@ namespace BlogApp.Services.Repositories.CategoryServiceRepository
             _mapper = mapper;
             _categoryRepository = categoryRepository;
         }
-        public IEnumerable<CategoryDisplayResponse> GetCategoriesForList()
+        public async Task<IEnumerable<CategoryDisplayResponse?>> GetCategoriesForListAsync()
         {
-            var categories = _categoryRepository.GetAll();
+            var categories =await  _categoryRepository.GetAllAsync();
             var responses = categories.ConvertToDto(_mapper);
             return responses;
         }

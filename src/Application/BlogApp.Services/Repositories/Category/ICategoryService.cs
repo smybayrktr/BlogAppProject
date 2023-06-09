@@ -1,11 +1,11 @@
 ﻿using System;
 using BlogApp.DataTransferObjects.Responses;
 
-namespace BlogApp.Services.Repositories.CategoryServiceRepository
+namespace BlogApp.Services.Repositories.Category
 {
 	public interface ICategoryService
 	{
-        public IEnumerable<CategoryDisplayResponse> GetCategoriesForList();
+        Task<IEnumerable<CategoryDisplayResponse?>> GetCategoriesForListAsync();
 
     }
 }

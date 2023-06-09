@@ -14,8 +14,10 @@ namespace BlogApp.Services.Mappings
             //Neyi-neye dönüştüreceğimizi yazdık.
             CreateMap<Blog, BlogCardResponse>();
             CreateMap<Category, CategoryDisplayResponse>();
-            CreateMap<CreateBlogActionRequest, BlogAction>();
             CreateMap<CreateNewBlogRequest, Blog>();
+            CreateMap<UserRegisterRequest, User>();
+            CreateMap<UserLoginRequest, User>();
+            CreateMap<CreateSaveBlogRequest, SavedBlog>();
         }
     }
 }

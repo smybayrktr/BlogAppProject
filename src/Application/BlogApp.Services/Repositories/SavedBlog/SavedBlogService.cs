@@ -1,65 +1,76 @@
 ﻿using System;
 using AutoMapper;
+using BlogApp.Core.Constants;
 using BlogApp.DataTransferObjects.Requests;
 using BlogApp.DataTransferObjects.Responses;
 using BlogApp.Entities;
-using BlogApp.Entities.Enums;
 using BlogApp.Infrastructure.Repositories;
 using BlogApp.Infrastructure.Repositories.EntityFramework;
 using BlogApp.Services.Extensions;
+using BlogApp.Services.Repositories.AppUser;
 
 namespace BlogApp.Services.Repositories.BlogAction
 {
-	public class BlogActionService:IBlogActionService
-	{
-        private readonly IBlogActionRepository _blogActionRepository;
+    public class SavedBlogService : ISavedBlogService
+    {
+        private readonly ISavedBlogRepository _savedBlogRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public BlogActionService(IBlogActionRepository blogActionRepository, IMapper mapper)
+        public SavedBlogService(ISavedBlogRepository savedBlogRepository, IMapper mapper, IUserService userService)
         {
-            _blogActionRepository = blogActionRepository;
+            _savedBlogRepository = savedBlogRepository;
+            _userService = userService;
             _mapper = mapper;
         }
 
-        public async Task<BlogActionResponse> DislikeAsync(CreateBlogActionRequest createBlogActionRequest)
+        public async Task<SaveBlogResponse> UserSaveAction(CreateSaveBlogRequest createSaveBlogRequest)
         {
-            var checkLike = await _blogActionRepository.GetWithPredicateAsync(x => x.UserId == createBlogActionRequest.UserId
-                                                                         && x.BlogId == createBlogActionRequest.BlogId);
-            if (checkLike == null)
+            var user = await _userService.GetCurrentUser();
+            var saveBlogResponse = new SaveBlogResponse();
+            if (user == null)
             {
-                var response = createBlogActionRequest.ConvertToDto(_mapper);
-                response.BlogActionType = BlogActionType.Dislike;
-                await _blogActionRepository.CreateAsync(response);
-                return new BlogActionResponse() { Message = "Beğenilmedi.", Status = true };
+                saveBlogResponse.Message = Messages.NotAuthorized;
+                saveBlogResponse.BookmarkImage = Images.UnsavedBookmark;
+                return saveBlogResponse;
             }
+            var checkSavedBlog = await _savedBlogRepository.GetWithPredicateAsync(x => x.BlogId == createSaveBlogRequest.BlogId);
 
+            if (checkSavedBlog == null)
+            {
+                var response = createSaveBlogRequest.ConvertToDto(_mapper, user.Id);
+                await _savedBlogRepository.CreateAsync(response);
+                saveBlogResponse.BookmarkImage = Images.SavedBookmark;
+                saveBlogResponse.Message = Messages.SavedBookmark;
+            }
             else
             {
-                var response = createBlogActionRequest.ConvertToDto(_mapper);
-                await _blogActionRepository.DeleteAsync(response);
-                return new BlogActionResponse() { Message = "Beğenmekten vezgeçildi.", Status = false };
+                await _savedBlogRepository.DeleteAsync(checkSavedBlog);
+                saveBlogResponse.BookmarkImage = Images.UnsavedBookmark;
+                saveBlogResponse.Message = Messages.UnsavedBookmark;
             }
+            return saveBlogResponse;
+        }
+        public async Task<SavedBlog?> GetSavedBlogByBlogIdAsync(int blogId)
+        {
+            var user = await _userService.GetCurrentUser();
+            if (user == null)
+            {
+                return null;
+            }
+
+            return await _savedBlogRepository.GetWithPredicateAsync (x => x.BlogId == blogId);
+
         }
 
-        public async Task<BlogActionResponse> LikeAsync(CreateBlogActionRequest createBlogActionRequest)
+        public async Task<IEnumerable<SavedBlog?>> GetSavedBlogsByUserAsync()
         {
-            var checkLike = await _blogActionRepository.GetWithPredicateAsync(x=>x.UserId ==createBlogActionRequest.UserId
-                                                                         && x.BlogId==createBlogActionRequest.BlogId);
-            if (checkLike == null)
+            var user = await _userService.GetCurrentUser();
+            if (user == null)
             {
-                var response = createBlogActionRequest.ConvertToDto(_mapper);
-                response.BlogActionType = BlogActionType.Like;
-                await _blogActionRepository.CreateAsync(response);
-                return new BlogActionResponse() { Message="Beğenildi.", Status = true};
+                return null;
             }
-
-            else
-            {
-                var response = createBlogActionRequest.ConvertToDto(_mapper);
-                await _blogActionRepository.DeleteAsync(response);
-                return new BlogActionResponse() { Message = "Beğenmekten vezgeçildi.", Status = false };
-            }
-
+            return await _savedBlogRepository.GetAllWithPredicateAsync(u=>u.UserId == user.Id);
         }
     }
 }

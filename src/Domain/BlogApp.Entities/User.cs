@@ -10,12 +10,11 @@ namespace BlogApp.Entities
 
         public string LastName { get; set; }
 
-        public string Password { get; set; }
+        public string ProfilePhoto { get; set; }
+
+
 
         public bool Status { get; set; } = true;
-
-        public string Role { get; set; }
-
 
         public ICollection<Blog> Blogs { get; set; }
     }

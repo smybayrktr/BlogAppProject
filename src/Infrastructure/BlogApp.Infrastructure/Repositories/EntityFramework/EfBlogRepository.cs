@@ -12,14 +12,16 @@ namespace BlogApp.Infrastructure.Repositories.EntityFramework
 
         }
 
-        public IEnumerable<Blog> GetBlogsByCategory(int categoryId)
+        public async Task<IEnumerable<Blog?>> GetBlogsByCategoryAsync(int categoryId)
         {
-            return _context.Blogs.AsNoTracking().Where(c => c.CategoryId == categoryId).AsEnumerable();
+            return await _context.Blogs.AsNoTracking()
+                                        .Where(c => c.CategoryId == categoryId)
+                                        .ToListAsync();
         }
 
-        public IEnumerable<Blog> GetBlogsByName(string title)
+        public async Task<IEnumerable<Blog>> GetBlogsByNameAsync(string title)
         {
-            return _context.Blogs.AsNoTracking().Where(c => c.Title.Contains(title)).AsEnumerable();
+            return await _context.Blogs.AsNoTracking().Where(c => c.Title.Contains(title)).ToListAsync();
 
         }
 

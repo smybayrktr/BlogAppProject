@@ -1,6 +1,5 @@
-﻿@model LikedBlog
-
-@if (Model.LikedBlogs.Count == 0)
+﻿@model IEnumerable<BlogCardResponse>
+@if (Model.Count() == 0)
 {
     <div class="alert alert-danger" style="max-width:800px; margin: auto; margin-bottom:200px " >
         Beğendiğiniz Bir Blog Yazısı Yok :(
@@ -8,20 +7,10 @@
 }
 else
 {
-    @foreach (var blog in Model.LikedBlogs)
+    @foreach (var blog in Model)
     {
-            <div class="col-md-5">
-                <div class="fh5co-blog animate-box">
-                    <div class="title text-center">
-                        <span class="posted-on">Nov. 15th 2016</span>
-                        <h3><a href="#">@blog.BlogCard.Title</a></h3>
-                        <span class="category"></span>
-                    </div>
-                    <a href="#"><img class="img-responsive" src=@blog.BlogCard.Image alt=""></a>
-                    <div class="blog-text text-center">
-                        <p>@blog.BlogCard.Body</p>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <partial name="_BlogCard" model="blog" />
             </div>
      
 

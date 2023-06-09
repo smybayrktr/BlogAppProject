@@ -2,26 +2,19 @@
 using BlogApp.Infrastructure.Data;
 using BlogApp.Infrastructure.Repositories;
 using BlogApp.Infrastructure.Repositories.EntityFramework;
+using BlogApp.Mvc.Extensions;
 using BlogApp.Services;
 using BlogApp.Services.Mappings;
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-//uygulama build olmadan önce applicationun kullanacağı nesneleri containere eklememiz lazım.
-builder.Services.AddScoped<IBlogService, BlogService>();
-builder.Services.AddScoped<IBlogRepository, EfBlogRepository>();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation() ;
 
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, EfCategoryRepository>();
-
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, EfUserRepository>();
-
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddSession(options =>
@@ -41,9 +34,11 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(opt =>
     .AddEntityFrameworkStores<BlogAppContext>()
     .AddDefaultTokenProviders();
 
-var connectionString = builder.Configuration.GetConnectionString("db");
-builder.Services.AddDbContext<BlogAppContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddInjections(builder.Configuration);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -54,18 +49,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<BlogAppContext>();
 context.Database.EnsureCreated();
-SeedData.SeedDatabase(context, scope.ServiceProvider);
+await SeedData.SeedDatabase(context, scope.ServiceProvider);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -74,6 +67,26 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    DashboardTitle = "Blog App Hangfire",
+    AppPath = "/hangfire",
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter
+        {
+            User = builder.Configuration.GetSection("HangfireSettings:User").Value,
+            Pass = builder.Configuration.GetSection("HangfireSettings:Password").Value
+        }
+    },
+    IgnoreAntiforgeryToken = true
+});
+
+
+GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 7 });
+
+//RecurringJobs.DatabaseBackupOperation();
 
 app.MapControllerRoute(
     name: "default",

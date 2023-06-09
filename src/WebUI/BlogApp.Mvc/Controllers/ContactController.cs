@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.Mvc.Controllers
 {
-    public class ConcatController : Controller
+    public class ContactController : Controller
     {
-        [HttpGet("/concat-index")]
+        [HttpGet("/contact")]
         public IActionResult Index()
         {
             return View();

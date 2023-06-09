@@ -1,5 +1,6 @@
 ﻿using System;
 using BlogApp.Services;
+using BlogApp.Services.Repositories.Category;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.Mvc.ViewComponents
@@ -13,12 +14,12 @@ namespace BlogApp.Mvc.ViewComponents
             _categoryService = categoryService;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var categories = _categoryService.GetCategoriesForList();
+            var categories = await _categoryService.GetCategoriesForListAsync();
             return View(categories);
         }
-
+       
     }
 }
 

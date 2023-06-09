@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BlogApp.Core.Utilities
+namespace BlogApp.Core.Utilities.DateHelper
 {
     public class DateHelper
     {
@@ -16,24 +16,11 @@ namespace BlogApp.Core.Utilities
             dateTime = dateTime.AddMilliseconds(timestampt).ToLocalTime();
             return dateTime;
         }
-
-        public static string ToDDMMMMYYYYhhddmmStringFormat(DateTime dateTime)
+        
+        public static string ToStringFormat(long dateTime)
         {
-            return dateTime.ToString("dd MMMM yyyy hh:mm:ss", new CultureInfo("tr-TR"));
-        }
-
-        public static string ToDDMMMMYYYYStringFormat(DateTime dateTime)
-        {
-            return dateTime.ToString("dd.MM.yyyy", new CultureInfo("tr-TR"));
-        }
-
-        public static string ToHHMMDDMMYYYYStringFormat(DateTime dateTime)
-        {
-            return dateTime.ToString("HH.mm dd.MM.yyyy", new CultureInfo("tr-TR"));
-        }
-        public static string ToHHMMStringFormat(DateTime dateTime)
-        {
-            return dateTime.ToString("HH.mm", new CultureInfo("tr-TR"));
+            var date = TimestamptToDate(dateTime);
+            return date.ToString("dd MMMM yyyy", new CultureInfo("tr-TR"));
         }
     }
 }

@@ -5,9 +5,10 @@ namespace BlogApp.Infrastructure.Repositories
 {
     public interface IBlogRepository : IEntityRepository<Blog>
     {
-        IEnumerable<Blog> GetBlogsByCategory(int categoryId);
+        Task<IEnumerable<Blog?>> GetBlogsByCategoryAsync(int categoryId);
 
-        IEnumerable<Blog> GetBlogsByName(string title);
+        Task<IEnumerable<Blog>> GetBlogsByNameAsync(string title);
+
     }
 }
 
