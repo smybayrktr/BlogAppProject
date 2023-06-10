@@ -43,7 +43,7 @@ namespace BlogApp.Mvc.Controllers
             return View();
         }
 
-        [HttpGet("/get-blogs-user")]
+        [HttpGet("/get-user-blogs")]
         public async Task<IActionResult?> GetBlogsByUser()
         {
             var result = await _blogService.GetBlogsByUserAsync();

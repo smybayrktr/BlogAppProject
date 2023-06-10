@@ -8,6 +8,7 @@ namespace BlogApp.Services.Repositories.Auth
 	{
         Task<bool> Register(UserRegisterRequest userRegisterRequest);
         Task<bool> Login(UserLoginRequest userLoginRequest);
+        Task<bool> GoogleExternalResponse();
         Task Logout();
     }
 }

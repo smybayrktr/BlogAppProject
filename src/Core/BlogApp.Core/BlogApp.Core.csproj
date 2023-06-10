@@ -8,10 +8,6 @@
 
   <ItemGroup>
     <None Remove="Utilities\" />
-    <None Remove="Caching\" />
-    <None Remove="Interceptors\" />
-    <None Remove="CrossCuttingConcerns\" />
-    <None Remove="CrossCuttingConcerns\Caching\" />
     <None Remove="Utilities\IoC\" />
     <None Remove="Utilities\UploadHelper\" />
     <None Remove="Utilities\DateHelper\" />
@@ -19,13 +15,10 @@
     <None Remove="Utilities\StringHelper\" />
     <None Remove="Utilities\UrlHelper\" />
     <None Remove="Utilities\EmailHelper\" />
+    <None Remove="Utilities\Auth0Helper\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\" />
-    <Folder Include="Caching\" />
-    <Folder Include="Interceptors\" />
-    <Folder Include="CrossCuttingConcerns\" />
-    <Folder Include="CrossCuttingConcerns\Caching\" />
     <Folder Include="Utilities\IoC\" />
     <Folder Include="Utilities\FileHelper\" />
     <Folder Include="Utilities\DateHelper\" />
@@ -33,6 +26,7 @@
     <Folder Include="Utilities\StringHelper\" />
     <Folder Include="Utilities\UrlHelper\" />
     <Folder Include="Utilities\EmailHelper\" />
+    <Folder Include="Utilities\Auth0Helper\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.0.0" />
@@ -41,5 +35,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="MimeKit" Version="4.0.0" />
+    <PackageReference Include="Auth0.AuthenticationApi" Version="7.20.0" />
   </ItemGroup>
 </Project>

@@ -52,7 +52,7 @@ namespace BlogApp.Mvc.TagBuilders
                 }
                 TagBuilder a = new TagBuilder("a");
                 a.AddCssClass("page-link");
-                a.Attributes["href"] = urlHelper.Action(PageAction, new { pageNo = i });
+                a.Attributes["href"] = urlHelper.Action(PageAction, new { pageNo = i,id=PageModel.CategoryId });
                 a.InnerHtml.Append(i.ToString());
                 li.InnerHtml.AppendHtml(a);
                 ul.InnerHtml.AppendHtml(li);

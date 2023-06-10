@@ -11,5 +11,10 @@ namespace BlogApp.Services.Repositories.Schedule
 			BackgroundJob.Schedule<IEmailService>(x=>x.SendRegisterEmail(name, email) , TimeSpan.FromMinutes(1));
 			//İstek geldikten 1 dakika sonra SendRegisterEmail Metotunu çalıştırır.
 		}
-	}
+
+		public static void ScheduleSendRegisterEmailWithPassword(string email, string name, string password)
+		{
+            BackgroundJob.Schedule<IEmailService>(x => x.SendRegisterEmailWithPassword(name, email, password), TimeSpan.FromMinutes(1));
+        }
+    }
 }

@@ -9,6 +9,11 @@ namespace BlogApp.Infrastructure.Repositories
 
         Task<IEnumerable<Blog>> GetBlogsByNameAsync(string title);
 
+        Task<IEnumerable<BlogCardDto>> GetBlogCardDtos();
+
+        Task<IEnumerable<BlogCardDto>> GetSavedBlogCardDtos(int userId);
+
+        Task<IEnumerable<BlogCardDto>> GetBlogDtosByCategory(int categoryId);
     }
 }
 

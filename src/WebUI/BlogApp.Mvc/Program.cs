@@ -37,16 +37,18 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(opt =>
 builder.Services.AddInjections(builder.Configuration);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
-
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Auth/Login";
                     options.AccessDeniedPath = "/Auth/AccessDenied"; //Üye ama yetkisi yok
                     options.ReturnUrlParameter = "returnUrl";
+                }).AddGoogle(x =>
+                {
+                    x.ClientId = builder.Configuration.GetSection("Google:ClientId").Value;
+                    x.ClientSecret = builder.Configuration.GetSection("Google:ClientSecret").Value;
                 });
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -56,9 +58,14 @@ if (!app.Environment.IsDevelopment())
 }
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-var context = services.GetRequiredService<BlogAppContext>();
-context.Database.EnsureCreated();
-await SeedData.SeedDatabase(context, scope.ServiceProvider);
+
+var blogAppContext = services.GetRequiredService<BlogAppContext>();
+blogAppContext.Database.EnsureCreated();
+
+var hangfireContext = services.GetRequiredService<HangfireContext>();
+hangfireContext.Database.EnsureCreated();
+
+await SeedData.SeedDatabase(blogAppContext, scope.ServiceProvider);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -5,6 +5,8 @@ namespace BlogApp.Infrastructure.Repositories
 {
 	public interface IUserRepository:IEntityRepository<User>
     {
-	}
+       
+
+    }
 }
 

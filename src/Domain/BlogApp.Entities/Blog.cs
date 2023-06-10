@@ -17,8 +17,6 @@ namespace BlogApp.Entities
         public int CategoryId { get; set; }
         public User CreatedUser { get; set; }
         public int UserId { get; set; }
-
-
     }
 }
 

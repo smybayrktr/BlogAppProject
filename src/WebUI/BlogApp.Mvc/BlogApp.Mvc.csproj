@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.5" />
     <PackageReference Include="Hangfire" Version="1.8.2" />
     <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.5" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="TagBuilders\" />
@@ -28,7 +29,6 @@
     <None Remove="Extensions\" />
     <None Remove="Views\Blogs\" />
     <None Remove="Views\Auth\" />
-    <None Remove="Views\About\" />
     <None Remove="Views\Concat\" />
   </ItemGroup>
   <ItemGroup>
@@ -39,7 +39,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Views\Blogs\" />
     <Folder Include="Views\Auth\" />
-    <Folder Include="Views\About\" />
     <Folder Include="Views\Contact\" />
     <Folder Include="wwwroot\images\uploaded-images\" />
   </ItemGroup>

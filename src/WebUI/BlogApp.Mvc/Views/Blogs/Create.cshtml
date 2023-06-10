@@ -12,22 +12,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control" required/>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
-                <textarea asp-for="Body" id="textarea" cols="90" rows="10" class="form-control"></textarea>
+                <textarea asp-for="Body" id="textarea" cols="90" rows="10" class="form-control" required></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="image" asp-for="Image" class="control-label"></label>
-                <input type="file" asp-for="Image" class="form-control" />
+                <input type="file" asp-for="Image" class="form-control" required/>
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories">
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories" required>
                     <option hidden="" value="" disabled selected>Lütfen kategori seçin</option>
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>

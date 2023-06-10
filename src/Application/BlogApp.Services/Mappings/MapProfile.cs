@@ -18,6 +18,7 @@ namespace BlogApp.Services.Mappings
             CreateMap<UserRegisterRequest, User>();
             CreateMap<UserLoginRequest, User>();
             CreateMap<CreateSaveBlogRequest, SavedBlog>();
+            CreateMap<BlogCardDto, BlogCardResponse>();
         }
     }
 }

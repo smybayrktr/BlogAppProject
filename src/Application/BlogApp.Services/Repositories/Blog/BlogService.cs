@@ -1,4 +1,5 @@
-﻿using System;
+﻿ using System;
+using System.Collections.Generic;
 using AutoMapper;
 using BlogApp.Core.Constants;
 using BlogApp.Core.Utilities.UrlHelper;
@@ -53,27 +54,15 @@ namespace BlogApp.Services.Repositories.Blog
 
         public async Task<IEnumerable<BlogCardResponse?>> GetBlogsByCategoryAsync(int categoryId)
         {
-            var blogs = await _blogRepository.GetBlogsByCategoryAsync(categoryId);
+            var blogs = await _blogRepository.GetBlogDtosByCategory(categoryId);
             var responses = blogs.ConvertToDto(_mapper);
-            foreach (var response in responses)
-            {
-                response.BookmarkImage = await _savedBlogService.GetSavedBlogByBlogIdAsync(response.Id) == null
-                                       ? Images.UnsavedBookmark
-                                       : Images.SavedBookmark;
-            }
             return responses;
         }
 
         public async Task<IEnumerable<BlogCardResponse?>> GetBlogsCardResponsesAsync()
         {
-            var blogs = await _blogRepository.GetAllAsync();
-            var responses = blogs.ConvertToDto(_mapper);
-            foreach (var response in responses)
-            {
-                response.BookmarkImage = await _savedBlogService.GetSavedBlogByBlogIdAsync(response.Id) == null
-                                       ? Images.UnsavedBookmark
-                                       : Images.SavedBookmark;
-            }
+            var blogCardDtos = await _blogRepository.GetBlogCardDtos();
+            var responses = blogCardDtos.ConvertToDto(_mapper);
             return responses;
         }
 
@@ -91,16 +80,14 @@ namespace BlogApp.Services.Repositories.Blog
 
         public async Task<IEnumerable<BlogCardResponse?>> GetSavedBlogs()
         {
-            var savedBlogs = await _savedBlogService.GetSavedBlogsByUserAsync();
-            var blogCardResponses = new List<BlogCardResponse>();
-            foreach (var savedBlog in savedBlogs)
+            var userCheck = await _userService.GetCurrentUser();
+            if (userCheck == null)
             {
-                var blog = await _blogRepository.GetAsync(savedBlog.BlogId);
-                var blogCardResponse = blog.ConvertToDto(_mapper);
-                blogCardResponse.BookmarkImage = Images.SavedBookmark;
-                blogCardResponses.Add(blogCardResponse);
+                return null;
             }
-            return blogCardResponses;
+            var blogCardDtos = await _blogRepository.GetSavedBlogCardDtos(userCheck.Id);
+            var responses = blogCardDtos.ConvertToDto(_mapper);
+            return responses;
         }
 
         private string GenerateUrl(string url)

@@ -9,4 +9,9 @@ public static class EmailMessages
     {
         return $"<p>Hello {name}</p><br><p>Welcome to the Süms Blog App</p>";
     }
+
+    public static string GetRegisterBodyWithPassword(string name, string password)
+    {
+        return $"<p>Hello {name}</p><br><p>Welcome to the Süms Blog App</p><br><p>Your password to login is {password}</p>";
+    }
 }

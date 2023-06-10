@@ -36,6 +36,7 @@ public class HomeController : Controller
             CurrentPage = pageNo,
             ItemsPerPage = blogPerPage,
             TotalItems = blogCount,
+            CategoryId = id
         };
 
         var paginatedBlogs = blogs.OrderBy(b => b.Id)

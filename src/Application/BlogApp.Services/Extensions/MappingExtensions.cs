@@ -31,6 +31,8 @@ namespace BlogApp.Services.Extensions
         public static User ConvertToDto(this UserLoginRequest userLoginRequest, IMapper mapper) =>
             mapper.Map<User>(userLoginRequest);
 
+        public static IEnumerable<BlogCardResponse> ConvertToDto(this IEnumerable<BlogCardDto> blogCardDtos, IMapper _mapper) => _mapper.Map<IEnumerable<BlogCardResponse>>(blogCardDtos);
+
         public static SavedBlog ConvertToDto(this CreateSaveBlogRequest createSaveBlogRequest, IMapper mapper, int userId)
         {
             var savedBlog= mapper.Map<SavedBlog>(createSaveBlogRequest);

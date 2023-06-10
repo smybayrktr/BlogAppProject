@@ -18,6 +18,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using BlogApp.Core.Utilities.EmailHelper;
 using BlogApp.Services.Repositories.Email;
+using BlogApp.Core.Utilities.Auth0Helper;
 
 namespace BlogApp.Mvc.Extensions
 {
@@ -45,7 +46,9 @@ namespace BlogApp.Mvc.Extensions
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddDbContext<BlogAppContext>(options =>
-                            options.UseSqlServer(configuration.GetConnectionString("Mssql")), ServiceLifetime.Transient);
+                            options.UseSqlServer(configuration.GetConnectionString("BlogApp")), ServiceLifetime.Transient);
+            services.AddDbContext<HangfireContext>(options =>
+                            options.UseSqlServer(configuration.GetConnectionString("Hangfire")), ServiceLifetime.Transient);
 
             services.AddHangfire(config =>
             {
@@ -65,10 +68,15 @@ namespace BlogApp.Mvc.Extensions
             services.AddHangfireServer();
 
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 7 });
+
             var emailConfig = configuration.GetSection("EmailConfiguration")
                                            .Get<EmailConfiguration>();
-
             services.AddSingleton(emailConfig);
+
+            var auth0Settings = configuration.GetSection("Auth0")
+                                        .Get<Auth0Settings>();
+            services.AddSingleton(auth0Settings);
+
             return services;
         }
     }

@@ -20,6 +20,13 @@ public class EmailService : IEmailService
         await SendEmail(new EmailMessage(new[] { email }, EmailMessages.RegisterTitle, EmailMessages.RegisterSubject,
             EmailMessages.GetRegisterBody(nickname)));
     }
+
+    public async Task SendRegisterEmailWithPassword(string nickname, string email, string password)
+    {
+        await SendEmail(new EmailMessage(new[] { email }, EmailMessages.RegisterTitle, EmailMessages.RegisterSubject,
+            EmailMessages.GetRegisterBodyWithPassword(nickname,password)));
+    }
+
     private async Task SendEmail(EmailMessage message)
     {
         var emailMessage = CreateEmailMessage(message);
