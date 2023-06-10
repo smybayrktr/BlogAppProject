@@ -71,15 +71,11 @@ namespace BlogApp.Services.Repositories.AppUser
         public async Task<User?> GetCurrentUser()
         {
             var currentUser= _httpContextAccessor.HttpContext.User;
-            if (currentUser == null)
-            {
-                return null;
-            }
+            if (currentUser == null)return null;
+            
             string userEmail = currentUser?.FindFirstValue(ClaimTypes.Email);
-            if (String.IsNullOrWhiteSpace(userEmail))
-            {
-                return null;
-            }
+            if (String.IsNullOrWhiteSpace(userEmail)) return null;
+
             return await GetByEmailAsync(userEmail);
         }
     }

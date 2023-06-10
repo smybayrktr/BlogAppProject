@@ -54,11 +54,8 @@ namespace BlogApp.Services.Repositories.BlogAction
         public async Task<SavedBlog?> GetSavedBlogByBlogIdAsync(int blogId)
         {
             var user = await _userService.GetCurrentUser();
-            if (user == null)
-            {
-                return null;
-            }
-
+            if (user == null) return null;
+            
             return await _savedBlogRepository.GetWithPredicateAsync (x => x.BlogId == blogId);
 
         }
@@ -66,10 +63,8 @@ namespace BlogApp.Services.Repositories.BlogAction
         public async Task<IEnumerable<SavedBlog?>> GetSavedBlogsByUserAsync()
         {
             var user = await _userService.GetCurrentUser();
-            if (user == null)
-            {
-                return null;
-            }
+            if (user == null) return null;
+            
             return await _savedBlogRepository.GetAllWithPredicateAsync(u=>u.UserId == user.Id);
         }
     }

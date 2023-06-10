@@ -12,12 +12,20 @@
                         <div class="fh5co-blog animate-box">
                             <div class="title text-center">
                                 <span class="posted-on">@DateHelper.ToStringFormat(blog.CreatedAt)</span>
-                                <h3><a href="#">@blog.Title</a></h3>
+                                <h3><a asp-action="BlogDetail" asp-controller="Blogs" asp-route-url="@blog.Url">@blog.Title</a></h3>
                                 <span class="category"></span>
                             </div>
-                            <a href="#"><img class="img-responsive" src="~/@blog.Image" alt=""></a>
+                            <a asp-action="BlogDetail" asp-controller="Blogs" asp-route-url="@blog.Url"><img class="img-responsive" src="~/@blog.Image" alt=""></a>
                             <div class="blog-text text-center">
                                 <p>@StringHelper.RemoveHtml(blog.Body)</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a asp-action="Delete" asp-controller="Blogs" asp-route-id="@blog.Id" style="float:left;">Sil</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a asp-action="Update" asp-controller="Blogs" asp-route-id="@blog.Id" style="float:right;">Güncelle</a>
+                                </div>
                             </div>
                         </div>
                     </div>

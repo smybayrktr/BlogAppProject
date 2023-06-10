@@ -4,7 +4,6 @@ using System.Security.Claims;
 using Auth0.AuthenticationApi;
 using Auth0.AuthenticationApi.Models;
 using AutoMapper;
-using BlogApp.Core.Utilities.Auth0Helper;
 using BlogApp.Core.Utilities.StringHelper;
 using BlogApp.DataTransferObjects.Requests;
 using BlogApp.Entities;
@@ -24,27 +23,22 @@ namespace BlogApp.Services.Repositories.Auth
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private readonly Auth0Settings _auth0Settings;
 
 
         public AuthService(IPasswordHasher<User> passwordHasher, SignInManager<User> signInManager,
-            IUserService userService, IMapper mapper, UserManager<User> userManager, Auth0Settings auth0Settings)
+            IUserService userService, IMapper mapper, UserManager<User> userManager)
         {
             _passwordHasher = passwordHasher;
             _signInManager = signInManager;
             _userService = userService;
             _userManager = userManager;
-            _auth0Settings = auth0Settings;
             _mapper = mapper;
         }
 
         public async Task<bool> Register(UserRegisterRequest userRegisterRequest)
         {
             var checkUserByEmail = await checkUserExistsByEmail(userRegisterRequest.Email);
-            if (checkUserByEmail)
-            {
-                return false;
-            }
+            if (checkUserByEmail) return false;
             var user = userRegisterRequest.ConvertToDto(_mapper);
             await _userService.AddAsync(user, userRegisterRequest.Password);
             await _signInManager.PasswordSignInAsync(user, userRegisterRequest.Password, true, false);
@@ -54,15 +48,11 @@ namespace BlogApp.Services.Repositories.Auth
         public async Task<bool> Login(UserLoginRequest userLoginRequest)
         {
             var userToFind = await _userService.GetByEmailAsync(userLoginRequest.Email);
-            if (userToFind == null)
-            {
-                return false;
-            }
+            if (userToFind == null) return false;
+            
             var checkPassword = verifyUserPassword(userToFind, userToFind.PasswordHash, userLoginRequest.Password);
-            if (!checkPassword)
-            {
-                return false;
-            }
+            if (!checkPassword) return false;
+            
             await _signInManager.PasswordSignInAsync(userToFind, userLoginRequest.Password, true, false);
             return true;
         }

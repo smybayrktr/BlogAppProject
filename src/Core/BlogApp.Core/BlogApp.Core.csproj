@@ -15,7 +15,6 @@
     <None Remove="Utilities\StringHelper\" />
     <None Remove="Utilities\UrlHelper\" />
     <None Remove="Utilities\EmailHelper\" />
-    <None Remove="Utilities\Auth0Helper\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\" />
@@ -26,7 +25,6 @@
     <Folder Include="Utilities\StringHelper\" />
     <Folder Include="Utilities\UrlHelper\" />
     <Folder Include="Utilities\EmailHelper\" />
-    <Folder Include="Utilities\Auth0Helper\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.0.0" />

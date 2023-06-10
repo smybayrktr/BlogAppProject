@@ -20,7 +20,7 @@ using IUrlHelper = BlogApp.Core.Utilities.UrlHelper.IUrlHelper;
 
 namespace BlogApp.Mvc.Controllers
 {
-   
+
     public class BlogsController : Controller
     {
         private readonly IBlogService _blogService;
@@ -48,9 +48,7 @@ namespace BlogApp.Mvc.Controllers
         {
             var result = await _blogService.GetBlogsByUserAsync();
             if (result == null)
-            {
-                return RedirectToAction("AccessDenied","Auth");
-            }
+                return RedirectToAction("AccessDenied", "Auth");
             return View(result);
         }
 
@@ -64,7 +62,7 @@ namespace BlogApp.Mvc.Controllers
         [HttpGet("/get-saved-blogs")]
         public async Task<IActionResult> GetSavedBlogs()
         {
-            var savedBlogs = await _blogService.GetSavedBlogs();
+            var savedBlogs = await _blogService.GetSavedBlogsAsync();
             return View(savedBlogs);
         }
 
@@ -85,44 +83,63 @@ namespace BlogApp.Mvc.Controllers
                     Title = createNewBlogRequestViewModel.Title,
                     Body = createNewBlogRequestViewModel.Body,
                     CategoryId = createNewBlogRequestViewModel.CategoryId,
-                    Image=await _fileHelper.UploadImage(createNewBlogRequestViewModel.Image)
+                    Image = await _fileHelper.UploadImage(createNewBlogRequestViewModel.Image)
                 };
 
                 await _blogService.CreateBlogAsync(createNewBlogRequest);
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Categories =await getCategoriesForSelectList();
+            ViewBag.Categories = await getCategoriesForSelectList();
             return View();
         }
 
         [HttpGet("/blog/{url}")]
         public async Task<IActionResult> BlogDetail(string url)
         {
-            var blog =await _blogService.GetBlogByUrl(url);
+            var blog = await _blogService.GetBlogByUrlAsync(url);
             if (blog == null)
-            {
-                return RedirectToAction("Index","Home");
-            }
+                return RedirectToAction("Index", "Home");
             return View(blog);
         }
 
         [HttpPost("/upload-blog-image")]
         public async Task<string> Upload(IFormFile file)
         {
-            if (file == null)
-            {
-                return null;
-            }
-
+            if (file == null) return null;
             var url = await _fileHelper.UploadImage(file);
             return _urlHelper.AddBaseUrlToUrl(url);
+        }
+
+        [Route("/delete-blog")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _blogService.DeleteAsync(id);
+            return RedirectToAction("GetBlogsByUser", "Blogs");
+        }
+
+        [HttpGet("/update-blog")]
+        public async Task<IActionResult> Update(int id)
+        {
+            var getBlog = await _blogService.GetBlogAsUpdateBlogDtoAsync(id);
+            if (getBlog==null)
+                return RedirectToAction("Index","Home");
+            ViewBag.Categories = await getCategoriesForSelectList();
+            return View(getBlog);
+        }
+
+        [HttpPost("/update-blog")]
+        public async Task<IActionResult> Update(UpdateBlogRequest updateBlogRequest)
+        {
+            var updateResult = await _blogService.UpdateAsync(updateBlogRequest);
+            if (!updateResult)
+                return RedirectToAction("AccessDenied", "Auth");
+            return RedirectToAction("GetBlogsByUser","Blogs");
         }
 
         private async Task<IEnumerable<SelectListItem?>> getCategoriesForSelectList()
         {
             var categories = (await _categoryService.GetCategoriesForListAsync()).Select(c => new SelectListItem
-                                                                    { Text = c.Name, Value = c.Id.ToString() })
-                                                                    .ToList();
+            { Text = c.Name, Value = c.Id.ToString() }).ToList();
             return categories;
         }
     }

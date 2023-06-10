@@ -18,7 +18,6 @@ using Hangfire;
 using Hangfire.SqlServer;
 using BlogApp.Core.Utilities.EmailHelper;
 using BlogApp.Services.Repositories.Email;
-using BlogApp.Core.Utilities.Auth0Helper;
 
 namespace BlogApp.Mvc.Extensions
 {
@@ -72,10 +71,6 @@ namespace BlogApp.Mvc.Extensions
             var emailConfig = configuration.GetSection("EmailConfiguration")
                                            .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
-
-            var auth0Settings = configuration.GetSection("Auth0")
-                                        .Get<Auth0Settings>();
-            services.AddSingleton(auth0Settings);
 
             return services;
         }

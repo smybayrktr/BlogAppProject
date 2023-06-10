@@ -45,7 +45,8 @@ namespace BlogApp.Mvc.Controllers
                 Password = model.Password
             };
             var response = await _authService.Login(userLoginRequest);
-            if (!response) return RedirectToAction("Login", "Auth");
+            if (!response)
+                return RedirectToAction("Login", "Auth");
             return RedirectToAction("Index", "Home");
         }
 
@@ -59,9 +60,8 @@ namespace BlogApp.Mvc.Controllers
         public async Task<IActionResult> Register(UserRegisterViewModel userRegisterViewModel)
         {
             if (!ModelState.IsValid)
-            {
                 return View(userRegisterViewModel);
-            }
+            
             UserRegisterRequest userRegisterRequest = new UserRegisterRequest()
             {
                 Email = userRegisterViewModel.Email,
@@ -72,9 +72,8 @@ namespace BlogApp.Mvc.Controllers
             };
             var loginResult = await _authService.Register(userRegisterRequest);
             if (!loginResult)
-            {
                 return RedirectToAction("Register", "Auth");
-            }
+            
             ScheduleService.ScheduleSendRegisterEmail(userRegisterRequest.Email, userRegisterRequest.Name);
             return RedirectToAction("Index", "Home");
         }
@@ -103,7 +102,8 @@ namespace BlogApp.Mvc.Controllers
         public async Task<IActionResult> ExternalResponse(string ReturnUrl = "/home")
         {
             var checkExternalResponse = await _authService.GoogleExternalResponse();
-            if (!checkExternalResponse) return RedirectToAction("Login", "Auth");
+            if (!checkExternalResponse)
+                return RedirectToAction("Login", "Auth");
             return Redirect(ReturnUrl);
         }
     }

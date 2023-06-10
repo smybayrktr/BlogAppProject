@@ -1,29 +1,33 @@
-﻿@model BlogApp.DataTransferObjects.Requests.CreateNewBlogRequest
+﻿@model BlogApp.DataTransferObjects.Requests.UpdateBlogRequest
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
 }
 
-<h4 style="display: flex; justify-content: center;">Create New Blog</h4>
+<h4 style="display: flex; justify-content: center;">Update Blog</h4>
 <hr />
 <div class="row" style="display: flex; justify-content: center;">
     <div class="col-md-4">
-        <form asp-action="Create" asp-controller="Blogs" enctype="multipart/form-data">
+        <form asp-action="Update" asp-controller="Blogs" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label">Başlık</label>
-                <input asp-for="Title" class="form-control" required/>
+                <input asp-for="Title" class="form-control" required />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Body" class="control-label">İçerik</label>
-                <textarea asp-for="Body" id="textarea" cols="90" rows="10" class="form-control" required></textarea>
+                <label asp-for="Body" class="control-label"></label>
+                <textarea asp-for="Body" id="textarea" cols="90" rows="10" class="form-control" required>İçerik</textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="image" asp-for="Image" class="control-label">Fotoğraf</label>
-                <input type="file" asp-for="Image" class="form-control" required/>
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <label for="image" asp-for="Image" class="control-label">Güncel Fotoğraf</label></br>
+                <img style="max-width:500px; alt="blog-image" src="~/@Model.Image"/>
+            </div>
+            <div class="form-group">
+                <label for="image" asp-for="NewImage" class="control-label">Yeni Fotoğraf</label>
+                <input type="file" asp-for="NewImage" class="form-control" />
+                <span asp-validation-for="NewImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label">Kategori</label>
@@ -32,8 +36,9 @@
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>

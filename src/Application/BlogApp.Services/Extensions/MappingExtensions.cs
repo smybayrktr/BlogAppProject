@@ -8,7 +8,7 @@ namespace BlogApp.Services.Extensions
 {
     public static class MappingExtensions
     {
-        
+
         public static IEnumerable<BlogCardResponse> ConvertToDto(this IEnumerable<Blog> blogs, IMapper mapper) =>
             mapper.Map<IEnumerable<BlogCardResponse>>(blogs);
 
@@ -20,11 +20,11 @@ namespace BlogApp.Services.Extensions
 
         public static Blog ConvertToDto(this CreateNewBlogRequest newBlogRequest, IMapper mapper, int userId)
         {
-             var blog= mapper.Map<Blog>(newBlogRequest);
-             blog.UserId = userId;
-             return blog;
+            var blog = mapper.Map<Blog>(newBlogRequest);
+            blog.UserId = userId;
+            return blog;
         }
-             
+
         public static User ConvertToDto(this UserRegisterRequest userRegisterRequest, IMapper mapper) =>
              mapper.Map<User>(userRegisterRequest);
 
@@ -35,11 +35,16 @@ namespace BlogApp.Services.Extensions
 
         public static SavedBlog ConvertToDto(this CreateSaveBlogRequest createSaveBlogRequest, IMapper mapper, int userId)
         {
-            var savedBlog= mapper.Map<SavedBlog>(createSaveBlogRequest);
+            var savedBlog = mapper.Map<SavedBlog>(createSaveBlogRequest);
             savedBlog.UserId = userId;
             return savedBlog;
         }
 
+        public static Blog ConvertToDto(this UpdateBlogRequest updateBlogRequest, IMapper mapper) =>
+           mapper.Map<Blog>(updateBlogRequest);
+
+        public static UpdateBlogRequest ConvertToUpdateDto(this Blog blog, IMapper mapper) =>
+           mapper.Map<UpdateBlogRequest>(blog);
     }
 }
 
