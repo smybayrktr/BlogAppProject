@@ -41,7 +41,7 @@
     
 <h2 align="center">:fire: Yayınlanmış Sitemize ulaşmak için </h2>
 
- <div align="center"><a href="...">v0.0.1</a></div></br>
+ <div align="center"><a href="https://sumblogapp.xyz/home">v0.0.1</a></div></br>
  
  <h5 align="center">“Be so good they can't ignore you.” - Steve Martin</h5>
 
